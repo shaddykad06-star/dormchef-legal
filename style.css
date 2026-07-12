@@ -1,0 +1,55 @@
+/* DormChef legal pages — matches the app's cream/coral look. */
+:root {
+  --bg: #f7f4ec;
+  --card: #fffdf8;
+  --text: #2b2620;
+  --text-2: #6f675c;
+  --accent: #e5644e;
+  --rule: rgba(43, 38, 32, 0.12);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #171512;
+    --card: #201d19;
+    --text: #f0ece4;
+    --text-2: #a39a8d;
+    --accent: #ef7a66;
+    --rule: rgba(240, 236, 228, 0.14);
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 680px; margin: 0 auto; padding: 48px 24px 96px; }
+header a.brand {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+h1 { font-size: 34px; letter-spacing: -0.03em; line-height: 1.15; margin: 24px 0 4px; }
+.updated { color: var(--text-2); font-size: 15px; margin: 0 0 32px; }
+h2 { font-size: 22px; letter-spacing: -0.02em; margin: 40px 0 8px; }
+p, li { color: var(--text); }
+li { margin: 6px 0; }
+strong { font-weight: 650; }
+a { color: var(--accent); }
+.note {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  padding: 14px 18px;
+  color: var(--text-2);
+  font-size: 15px;
+}
+table { width: 100%; border-collapse: collapse; font-size: 15.5px; margin: 12px 0; }
+th, td { text-align: left; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--text-2); font-weight: 600; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.04em; }
+footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--rule); color: var(--text-2); font-size: 15px; }
+footer nav a { margin-right: 16px; }
