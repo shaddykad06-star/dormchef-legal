@@ -1,0 +1,263 @@
+/* DormChef landing page — grocery-print direction: register receipt, coupon,
+   index cards, shelf-edge ticker. Three type voices, all system stacks (no
+   external fonts — the privacy policy promises zero third-party requests):
+     serif  = display headlines        (Charter / Georgia)
+     mono   = anything with numbers    (SF Mono / Menlo)
+     sans   = body copy                (system UI)
+   The legal pages keep their own stylesheet (style.css); this file is only
+   linked from index.html. */
+
+:root {
+  --bg: #f7f4ec;
+  --card: #fffdf8;
+  --ink: #2b2620;
+  --muted: #6f675c;
+  --accent: #e5644e;
+  --accent-soft: rgba(229, 100, 78, 0.12);
+  --rule: rgba(43, 38, 32, 0.16);
+  /* The receipt is a physical object: paper stays paper in both themes. */
+  --paper: #fdfaf1;
+  --paper-ink: #332d24;
+  --paper-faint: #8d8371;
+  --serif: "Charter", "Iowan Old Style", "Palatino", Georgia, "Times New Roman", serif;
+  --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #171512;
+    --card: #201d19;
+    --ink: #f0ece4;
+    --muted: #a39a8d;
+    --accent: #ef7a66;
+    --accent-soft: rgba(239, 122, 102, 0.16);
+    --rule: rgba(240, 236, 228, 0.16);
+    --paper: #ece4d1;   /* dimmed paper under dim light, still paper */
+    --paper-ink: #2e2921;
+    --paper-faint: #7c7260;
+  }
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16.5px/1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+/* Paper grain over everything — inline SVG turbulence, no request made. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media (prefers-color-scheme: dark) { body::before { opacity: 0.07; } }
+
+::selection { background: var(--accent); color: #fff; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.shell { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 28px 24px 90px; }
+
+/* Screen-reader-only labels; .hp is the bot honeypot (not display:none — bots skip that). */
+.sr, .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* ---------------- Masthead ---------------- */
+.masthead { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.brand {
+  font: 700 24px/1 var(--serif);
+  color: var(--ink);
+  text-decoration: underline wavy var(--accent) 2px;
+  text-underline-offset: 6px;
+}
+.mast-links a { margin-left: 18px; font-size: 15px; color: var(--muted); text-decoration: none; }
+.mast-links a:hover { color: var(--accent); }
+
+/* ---------------- Hero ---------------- */
+/* Single column: the hero is copy + signup, no visual. With the receipt gone
+   the headline itself has to carry the space, so it runs big and full-width
+   like a front page rather than sitting in a centered template block. */
+.hero { padding: 68px 0 28px; }
+.hero h1 {
+  font: 700 clamp(36px, 7.2vw, 86px)/1.02 var(--serif);
+  letter-spacing: -0.025em;
+  margin: 26px 0 22px;
+  max-width: 20ch;
+}
+.lede { font-size: 17.5px; color: var(--muted); max-width: 52ch; margin: 0 0 30px; }
+
+/* The rubber stamp */
+.stamp {
+  display: inline-block;
+  margin: 0;
+  padding: 8px 14px 9px;
+  border: 2px solid var(--accent);
+  border-radius: 3px;
+  color: var(--accent);
+  font: 700 12.5px/1.5 var(--mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  transform: rotate(-3deg);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.9 0.1'/%3E%3C/filter%3E%3Crect width='90' height='90' fill='black'/%3E%3Crect width='90' height='90' filter='url(%23s)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.9 0.1'/%3E%3C/filter%3E%3Crect width='90' height='90' fill='black'/%3E%3Crect width='90' height='90' filter='url(%23s)'/%3E%3C/svg%3E");
+}
+.stamp span { display: block; }
+.stamp-sub { font-weight: 400; opacity: 0.85; }
+
+/* ---------------- Waitlist form ---------------- */
+.signup { max-width: 470px; }
+.signup--center { margin: 0 auto; }
+.signup-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.signup input[type="email"] {
+  flex: 1 1 210px;
+  min-width: 0;
+  font: 15px/1.4 var(--mono);
+  color: var(--ink);
+  background: var(--card);
+  border: 1.5px solid var(--rule);
+  border-radius: 4px;
+  padding: 13px 14px;
+  transition: border-color 0.15s ease;
+}
+.signup input[type="email"]::placeholder { color: var(--muted); }
+.signup input[type="email"]:focus { outline: none; border-color: var(--accent); }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: 700 15px/1.4 var(--mono);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--accent);
+  border: 1.5px solid var(--accent);
+  border-radius: 4px;
+  padding: 13px 20px;
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.12s ease;
+}
+.btn:hover { opacity: 0.9; }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.55; cursor: default; transform: none; }
+.signup-note { font: 13px/1.5 var(--mono); color: var(--muted); margin: 12px 0 0; }
+.signup-msg { font-size: 15px; margin: 12px 0 0; min-height: 1.4em; }
+.signup-msg.ok { color: var(--accent); font-weight: 650; }
+.signup-msg.err { color: var(--muted); }
+
+/* ---------------- Sections ---------------- */
+.section { margin-top: 100px; }
+.overline {
+  font: 700 12px/1.4 var(--mono);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 8px;
+}
+.section h2, .coupon h2 {
+  font: 700 clamp(26px, 3.4vw, 36px)/1.15 var(--serif);
+  letter-spacing: -0.01em;
+  margin: 0 0 10px;
+}
+.sub { color: var(--muted); margin: 0 0 34px; max-width: 58ch; }
+.fine { font: 12.5px/1.6 var(--mono); color: var(--muted); max-width: 62ch; }
+
+/* ---------------- Filmstrip / screenshots ---------------- */
+.filmstrip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+.frame { margin: 0; }
+.frame img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 375 / 812;
+  object-fit: cover;
+  border: 1.5px solid var(--rule);
+  border-radius: 18px;
+  background: var(--card);
+}
+.frame .index-card { display: none; }
+.frame figcaption { font: 12px/1.5 var(--mono); color: var(--muted); text-align: center; margin-top: 10px; }
+/* Missing screenshot → the index card takes the slot (img onerror adds .missing). */
+.frame.missing img { display: none; }
+.frame.missing .index-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  aspect-ratio: 375 / 812;
+  background: var(--paper);
+  color: var(--paper-ink);
+  border: 0;
+  padding: 18px 16px;
+  text-align: center;
+  box-shadow: 0 10px 20px -16px rgba(20, 15, 8, 0.5);
+  /* ruled index-card lines */
+  background-image: repeating-linear-gradient(transparent 0 27px, rgba(141, 131, 113, 0.35) 27px 28px);
+  position: relative;
+}
+.frame.missing .index-card::before {
+  /* a strip of tape */
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 58px;
+  height: 18px;
+  transform: translateX(-50%) rotate(-2deg);
+  background: rgba(229, 100, 78, 0.28);
+}
+.frame.missing:nth-child(odd) .index-card { transform: rotate(-1.3deg); }
+.frame.missing:nth-child(even) .index-card { transform: rotate(1.1deg); }
+.index-card strong { font: 700 19px/1.2 var(--serif); }
+.index-card span { font: 11.5px/1.5 var(--mono); color: var(--paper-faint); }
+
+/* ---------------- The coupon ---------------- */
+.coupon {
+  position: relative;
+  margin-top: 110px;
+  border: 2.5px dashed var(--accent);
+  border-radius: 6px;
+  background: var(--card);
+  padding: 46px 36px 40px;
+  text-align: center;
+}
+.scissors {
+  position: absolute;
+  top: -12px;
+  left: 34px;
+  color: var(--accent);
+  background: var(--bg);
+  padding: 0 6px;
+}
+.coupon .overline { margin-bottom: 6px; }
+.coupon-sub { color: var(--muted); max-width: 46ch; margin: 0 auto 26px; }
+.coupon .signup-row { justify-content: center; }
+.coupon .signup-note { text-align: center; }
+
+/* ---------------- Footer ---------------- */
+.site-foot { margin-top: 80px; padding-top: 24px; border-top: 1.5px solid var(--rule); color: var(--muted); font-size: 14.5px; }
+.site-foot nav a { margin-right: 16px; }
+
+/* ---------------- Small screens ---------------- */
+@media (max-width: 860px) {
+  .hero { padding: 44px 0 48px; }
+  .filmstrip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .section { margin-top: 72px; }
+}
+@media (max-width: 620px) {
+  .signup-row .btn { flex: 1 1 100%; }
+  .coupon { padding: 40px 20px 34px; margin-top: 80px; }
+  .mast-links a { margin-left: 12px; font-size: 14px; }
+}

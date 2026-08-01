@@ -3,26 +3,209 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>DormChef</title>
-<link rel="stylesheet" href="style.css" />
+<title>DormChef — the grocery list that does its own math</title>
+<meta name="description" content="DormChef is an iPhone app in development for college students: pick cheap, good recipes that fit a dorm kitchen, plan your week, and get one merged, costed grocery list. See the real screens and get release updates by email." />
+<link rel="canonical" href="https://shaddykad06-star.github.io/dormchef-legal/" />
+
+<!-- Link previews. og:image must be an absolute URL — scrapers don't resolve
+     relative paths. Rebuild the card with scripts/make-og-card.py. -->
+<meta property="og:title" content="DormChef — the whole week's dinners, rung up before you shop" />
+<meta property="og:description" content="Cheap, good meals for college students. Every recipe wears its price. An iPhone app in development." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://shaddykad06-star.github.io/dormchef-legal/" />
+<meta property="og:image" content="https://shaddykad06-star.github.io/dormchef-legal/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="DormChef — the whole week's dinners, rung up before you shop, beside screenshots of the app's meal planner and grocery list." />
+<meta property="og:site_name" content="DormChef" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="icon" href="favicon.png" />
+<link rel="stylesheet" href="landing.css" />
 </head>
 <body>
-<div class="wrap">
-  <header><a class="brand" href="index.html">DormChef</a></header>
 
-  <h1>Cheap, healthy meals for college students.</h1>
-  <p class="updated">Recipes, meal plans, and grocery lists that fit a dorm and a budget.</p>
+<div class="shell">
 
-  <p>DormChef helps students find meals they can actually make — then turns a week of meals
-  into one consolidated grocery list.</p>
+  <!-- ================= Masthead ================= -->
+  <header class="masthead">
+    <a class="brand" href="index.html">DormChef</a>
+    <nav class="mast-links" aria-label="Site">
+      <a href="#screens">The screens</a>
+      <a href="#updates">Updates</a>
+    </nav>
+  </header>
 
-  <p class="note">DormChef is currently in development. This page hosts the app's legal
-  documents.</p>
+  <!-- ================= 1. Hero ================= -->
+  <section class="hero">
+    <p class="stamp">
+      <span class="stamp-top">Coming to iPhone</span>
+      <span class="stamp-sub">in development</span>
+    </p>
+    <h1>The whole week&rsquo;s dinners, rung up before you shop.</h1>
+    <p class="lede">
+      DormChef is an iPhone app for college students. Pick cheap, good recipes that fit
+      a dorm kitchen, drop them onto your week, and it merges every ingredient into one
+      grocery list — duplicates combined, grouped for the store, totalled for the week.
+      <a href="#screens">See the real screens below.</a>
+    </p>
 
-  <footer>
-    <nav><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></nav>
-    <p>DormChef — cheap, healthy meals for college students.</p>
+    <form class="signup" id="signup-hero" novalidate>
+      <div class="signup-row">
+        <label class="hp" for="hero-company">Company (leave this empty)</label>
+        <input class="hp" type="text" id="hero-company" name="company" tabindex="-1" autocomplete="off" />
+        <label class="sr" for="hero-email">Email address</label>
+        <input type="email" id="hero-email" name="email" placeholder="you@school.edu" required autocomplete="email" />
+        <button class="btn" type="submit">Keep me posted</button>
+      </div>
+      <p class="signup-msg" role="status" aria-live="polite"></p>
+      <p class="signup-note">Occasional progress updates and word when it&rsquo;s out. Nothing else, ever.</p>
+    </form>
+  </section>
+
+  <!-- ================= 2. The screens ================= -->
+  <section class="section" id="screens">
+    <p class="overline">From the app</p>
+    <h2>The screens</h2>
+    <p class="sub">
+      Screenshots of the current build — the same four screens you&rsquo;d use in a week:
+      find a meal, put it on a night, shop the merged list, cook it.
+    </p>
+
+    <div class="filmstrip">
+      <figure class="frame">
+        <img src="shots/explore.jpg" loading="lazy" onerror="this.closest('.frame').classList.add('missing')"
+             alt="The DormChef Explore screen: a grid of student recipes, each labelled with calories and cost per serving." />
+        <div class="index-card" aria-hidden="true"><strong>Explore</strong><span>every recipe wears its price</span></div>
+        <figcaption>Browse meals priced per serving</figcaption>
+      </figure>
+      <figure class="frame">
+        <img src="shots/planner.jpg" loading="lazy" onerror="this.closest('.frame').classList.add('missing')"
+             alt="The DormChef weekly planner with meals assigned to individual days." />
+        <div class="index-card" aria-hidden="true"><strong>Planner</strong><span>drop meals on the nights you&rsquo;ll cook</span></div>
+        <figcaption>Plan the nights you&rsquo;ll cook</figcaption>
+      </figure>
+      <figure class="frame">
+        <img src="shots/grocery.jpg" loading="lazy" onerror="this.closest('.frame').classList.add('missing')"
+             alt="A DormChef grocery list with ingredients merged across meals and grouped for the store." />
+        <div class="index-card" aria-hidden="true"><strong>Grocery</strong><span>the merged, costed list</span></div>
+        <figcaption>Shop from one merged list</figcaption>
+      </figure>
+      <figure class="frame">
+        <img src="shots/recipe.jpg" loading="lazy" onerror="this.closest('.frame').classList.add('missing')"
+             alt="A DormChef recipe screen showing ingredients, steps, calories and cost per serving." />
+        <div class="index-card" aria-hidden="true"><strong>Recipe</strong><span>steps, scaling, macros</span></div>
+        <figcaption>Cook it, then log it</figcaption>
+      </figure>
+    </div>
+    <p class="fine">
+      Screenshots of a development build — what you see here is what the app does today,
+      and it will keep changing before release.
+    </p>
+  </section>
+
+  <!-- ================= 3. The closing signup ================= -->
+  <section class="coupon" id="updates">
+    <svg class="scissors" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.6" /><circle cx="6" cy="18" r="2.6" /><path d="M8.2 7.6 20 19M8.2 16.4 20 5" /></svg>
+    <p class="overline">Clip and keep</p>
+    <h2>Hear when it&rsquo;s ready</h2>
+    <p class="coupon-sub">
+      DormChef is still being built. Leave an email and you&rsquo;ll get the occasional
+      progress update and word the day it&rsquo;s published — no dates promised until
+      there are dates to promise.
+    </p>
+    <form class="signup signup--center" id="signup-coupon" novalidate>
+      <div class="signup-row">
+        <label class="hp" for="coupon-company">Company (leave this empty)</label>
+        <input class="hp" type="text" id="coupon-company" name="company" tabindex="-1" autocomplete="off" />
+        <label class="sr" for="coupon-email">Email address</label>
+        <input type="email" id="coupon-email" name="email" placeholder="you@school.edu" required autocomplete="email" />
+        <button class="btn" type="submit">Keep me posted</button>
+      </div>
+      <p class="signup-msg" role="status" aria-live="polite"></p>
+      <p class="signup-note">No purchase necessary · iPhone required · unsubscribe any time</p>
+    </form>
+  </section>
+
+  <footer class="site-foot">
+    <nav>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Use</a>
+      <a href="mailto:dormchef.app@gmail.com">Contact</a>
+    </nav>
+    <p>DormChef — cheap, good meals for college students. No ads, no trackers, on this page or in the app.</p>
   </footer>
+
 </div>
+
+<script>
+/* ============================================================
+   Waitlist signup — DO NOT CHANGE THE CONTRACT.
+   Posts to a SECURITY DEFINER Postgres function rather than at the
+   table (supabase/migrations/20260724010000_waitlist_rpc.sql). The
+   function dedupes silently and returns nothing (204). The key below
+   is the PUBLISHABLE key — public by design, it also ships in the
+   iOS app — and the waitlist table has no SELECT/INSERT policy, so
+   this key can only call this one function. Never send it as an
+   Authorization: Bearer header: that breaks role resolution and RLS
+   denies the insert.
+   ============================================================ */
+(function () {
+  var SUPABASE_URL = 'https://qnarhtydsvxafdrmjqil.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_UhtJIjMTsegrgHNaUKYcRg_e-FV60cd';
+
+  function wire(form) {
+    if (!form) return;
+    var email = form.querySelector('input[type="email"]');
+    var honey = form.querySelector('input[name="company"]');
+    var button = form.querySelector('button');
+    var msg = form.querySelector('.signup-msg');
+
+    function say(text, kind) {
+      msg.textContent = text;
+      msg.className = 'signup-msg' + (kind ? ' ' + kind : '');
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var value = (email.value || '').trim();
+
+      // Bot filled the hidden field — show success, save nothing.
+      if (honey && honey.value) { say("You're on the list.", 'ok'); return; }
+
+      if (!value || value.indexOf('@') < 1 || value.indexOf('.', value.indexOf('@')) < 0) {
+        say("That doesn't look like an email address.", 'err');
+        return;
+      }
+
+      button.disabled = true;
+      say('Adding you…');
+
+      fetch(SUPABASE_URL + '/rest/v1/rpc/join_waitlist', {
+        method: 'POST',
+        headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ p_email: value, p_source: 'landing' })
+      }).then(function (res) {
+        if (res.ok) {
+          form.reset();
+          say("You're on the list — we'll email you as it progresses.", 'ok');
+        } else if (res.status === 400) {
+          say("That doesn't look like an email address.", 'err');
+        } else {
+          say('Something went wrong. Try again, or email us instead.', 'err');
+        }
+      }).catch(function () {
+        say('Could not reach the server — check your connection and try again.', 'err');
+      }).then(function () {
+        button.disabled = false;
+      });
+    });
+  }
+
+  wire(document.getElementById('signup-hero'));
+  wire(document.getElementById('signup-coupon'));
+})();
+</script>
+
 </body>
 </html>

@@ -1,4 +1,8 @@
-/* DormChef legal pages — matches the app's cream/coral look. */
+/* DormChef site — stylesheet for the LEGAL pages (privacy.html, terms.html).
+   The landing page has its own stylesheet, landing.css — the two pages have
+   different jobs (a narrow reading column vs. an art-directed pitch), so their
+   styles no longer share a file. Colours match the app's cream/coral theme
+   (src/constants/theme.ts). */
 :root {
   --bg: #f7f4ec;
   --card: #fffdf8;
