@@ -22,6 +22,60 @@
 
 <link rel="icon" href="favicon.png" />
 <link rel="stylesheet" href="landing.css" />
+
+<!-- Structured data for search + answer engines (HQ-5,
+     docs/base44-audit-2026-08-11.md). Claims mirror the visible page exactly:
+     in development, no dates, no prices — §9 rules apply here too. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://dormchefllc.com/#org",
+      "name": "DormChef LLC",
+      "alternateName": "DormChef",
+      "url": "https://dormchefllc.com/",
+      "logo": "https://dormchefllc.com/favicon.png",
+      "email": "dormchef.app@gmail.com"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://dormchefllc.com/#site",
+      "url": "https://dormchefllc.com/",
+      "name": "DormChef",
+      "description": "DormChef is an iPhone app in development for college students: pick cheap, good recipes that fit a dorm kitchen, plan the week, and get one merged, aisle-organized grocery list with an estimated total.",
+      "publisher": { "@id": "https://dormchefllc.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://dormchefllc.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is DormChef?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Cooking usually isn't the hard part — deciding, shopping and paying for it is. DormChef takes that half: pick or import meals you'd actually eat, and it works out what to buy and roughly what it'll cost before you spend anything." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does DormChef work without a real kitchen?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Whatever you've got to cook on. The No-kitchen filter narrows everything to meals a microwave, kettle or rice cooker can handle, so a first-year with one outlet and a housemate with a full stove are both at home here. Vegetarian, vegan, high-protein and under-500-calorie filters run alongside it." }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the grocery list work?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Plan your week and every ingredient is merged across recipes — duplicates combined, grouped by aisle, totalled for the week, estimates marked as estimates. Set a weekly budget and lists aim for it, without ever dropping an ingredient your recipes need." }
+        },
+        {
+          "@type": "Question",
+          "name": "When can I use DormChef?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It's in development. Leave your email at dormchefllc.com and you'll hear as it progresses — the day it ships, you'll know." }
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -32,22 +86,25 @@
     <a class="brand" href="index.html">DormChef</a>
     <nav class="mast-links" aria-label="Site">
       <a href="#screens">The screens</a>
-      <a href="#updates">Updates</a>
+      <a href="#questions">Questions</a>
+      <a href="#updates">Keep me posted</a>
     </nav>
   </header>
 
   <!-- ================= 1. Hero ================= -->
   <section class="hero">
+   <div class="hero-copy">
     <p class="stamp">
       <span class="stamp-top">Coming to iPhone</span>
       <span class="stamp-sub">in development</span>
     </p>
     <h1>The whole week&rsquo;s dinners, rung up before you shop.</h1>
+    <!-- The lede promises; it no longer explains. The mechanism (merging,
+         aisles, totals) lives once, in the FAQ, and the screens show it. -->
     <p class="lede">
-      DormChef is an iPhone app for college students. Pick cheap, good recipes that fit
-      a dorm kitchen, drop them onto your week, and it merges every ingredient into one
-      grocery list — duplicates combined, grouped for the store, totalled for the week.
-      <a href="#screens">See the real screens below.</a>
+      DormChef is an iPhone app for college students cooking on a microwave, a kettle
+      or a rice cooker. Pick the week&rsquo;s dinners; the shopping sorts itself out
+      before you get to the store. <a href="#screens">See the real screens below.</a>
     </p>
 
     <form class="signup" id="signup-hero" novalidate>
@@ -61,15 +118,26 @@
       <p class="signup-msg" role="status" aria-live="polite"></p>
       <p class="signup-note">Occasional progress updates and word when it&rsquo;s out. Nothing else, ever.</p>
     </form>
+   </div>
+
+    <!-- One real screen, not a mockup: the shot that proves the headline.
+         Dropped below 860px — the filmstrip shows it again a moment later,
+         and the signup matters more than a picture on a phone. -->
+    <figure class="hero-shot">
+      <img src="shots/grocery.jpg" onerror="this.closest('.hero-shot').remove()"
+           alt="A DormChef grocery list for a week of meals: ingredients merged across recipes, grouped by aisle, with an estimated total." />
+      <figcaption>One week of dinners, totalled before the store</figcaption>
+    </figure>
   </section>
 
   <!-- ================= 2. The screens ================= -->
   <section class="section" id="screens">
     <p class="overline">From the app</p>
     <h2>The screens</h2>
+    <!-- The subhead used to enumerate the four screens the captions already
+         name, one line below. The captions won that argument. -->
     <p class="sub">
-      Screenshots of the current build — the same four screens you&rsquo;d use in a week:
-      find a meal, put it on a night, shop the merged list, cook it.
+      The screens you&rsquo;d actually touch in a week.
     </p>
 
     <div class="filmstrip">
@@ -86,33 +154,79 @@
         <figcaption>Plan the nights you&rsquo;ll cook</figcaption>
       </figure>
       <figure class="frame">
-        <img src="shots/grocery.jpg" loading="lazy" onerror="this.closest('.frame').classList.add('missing')"
-             alt="A DormChef grocery list with ingredients merged across meals and grouped for the store." />
-        <div class="index-card" aria-hidden="true"><strong>Grocery</strong><span>the merged, costed list</span></div>
-        <figcaption>Shop from one merged list</figcaption>
-      </figure>
-      <figure class="frame">
         <img src="shots/recipe.jpg" loading="lazy" onerror="this.closest('.frame').classList.add('missing')"
              alt="A DormChef recipe screen showing ingredients, steps, calories and cost per serving." />
         <div class="index-card" aria-hidden="true"><strong>Recipe</strong><span>steps, scaling, macros</span></div>
-        <figcaption>Cook it, then log it</figcaption>
+        <figcaption>Cook it, step by step</figcaption>
+      </figure>
+      <figure class="frame">
+        <img src="shots/dashboard.jpg" loading="lazy" onerror="this.closest('.frame').classList.add('missing')"
+             alt="The DormChef dashboard: calories logged against the day's goal, this week's meals, and the current grocery list." />
+        <div class="index-card" aria-hidden="true"><strong>Today</strong><span>calories against your goal</span></div>
+        <figcaption>Watch the day&rsquo;s calories add up</figcaption>
+      </figure>
+      <figure class="frame">
+        <img src="shots/profile.jpg" loading="lazy" onerror="this.closest('.frame').classList.add('missing')"
+             alt="A DormChef profile: a student's own meals, each with its calories and cost per serving, and their follower counts." />
+        <div class="index-card" aria-hidden="true"><strong>Profile</strong><span>the meals you post</span></div>
+        <figcaption>Share what you cook</figcaption>
       </figure>
     </div>
+    <!-- No promises about the finished app: we can't guarantee what ships
+         looks like this, so the caveat only describes what these images are. -->
     <p class="fine">
-      Screenshots of a development build — what you see here is what the app does today,
-      and it will keep changing before release.
+      Screenshots from a development build. DormChef is still being built, so the
+      finished app may differ from what you see here.
     </p>
   </section>
 
-  <!-- ================= 3. The closing signup ================= -->
+  <!-- ================= 3. The fine print ================= -->
+  <!-- Four questions, §9-checked: shipped features only, no dates, no prices.
+       Mirrored in the FAQPage JSON-LD in <head> — edit both or neither. -->
+  <section class="section faq" id="questions">
+    <p class="overline">Straight answers</p>
+    <h2>The fine print</h2>
+    <dl class="faq-list">
+      <div class="faq-item">
+        <dt>What is DormChef?</dt>
+        <dd>Cooking usually isn&rsquo;t the hard part — deciding, shopping and paying
+        for it is. DormChef takes that half: pick or import meals you&rsquo;d actually
+        eat, and it works out what to buy and roughly what it&rsquo;ll cost before you
+        spend anything.</dd>
+      </div>
+      <div class="faq-item">
+        <dt>Does it work without a real kitchen?</dt>
+        <dd>Whatever you&rsquo;ve got to cook on. The No-kitchen filter narrows
+        everything to meals a microwave, kettle or rice cooker can handle, so a
+        first-year with one outlet and a housemate with a full stove are both at home
+        here. Vegetarian, vegan, high-protein and under-500-calorie filters run
+        alongside it.</dd>
+      </div>
+      <div class="faq-item">
+        <dt>How does the grocery list work?</dt>
+        <dd>Plan your week and every ingredient is merged across recipes —
+        duplicates combined, grouped by aisle, totalled for the week, estimates
+        marked as estimates. Set a weekly budget and lists aim for it, without
+        ever dropping an ingredient your recipes need.</dd>
+      </div>
+      <div class="faq-item">
+        <dt>When can I use it?</dt>
+        <dd>It&rsquo;s in development. Leave your email and you&rsquo;ll hear as it
+        progresses — the day it ships, you&rsquo;ll know.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <!-- ================= 4. The closing signup ================= -->
   <section class="coupon" id="updates">
     <svg class="scissors" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.6" /><circle cx="6" cy="18" r="2.6" /><path d="M8.2 7.6 20 19M8.2 16.4 20 5" /></svg>
     <p class="overline">Clip and keep</p>
     <h2>Hear when it&rsquo;s ready</h2>
+    <!-- Second signup: gives a reason the hero's didn't — what the emails
+         actually contain — rather than restating that it's being built. -->
     <p class="coupon-sub">
-      DormChef is still being built. Leave an email and you&rsquo;ll get the occasional
-      progress update and word the day it&rsquo;s published — no dates promised until
-      there are dates to promise.
+      Progress, not marketing: what shipped, what broke, what&rsquo;s next — and word
+      the day it&rsquo;s published. No dates promised until there are dates to promise.
     </p>
     <form class="signup signup--center" id="signup-coupon" novalidate>
       <div class="signup-row">
@@ -154,6 +268,19 @@
   var SUPABASE_URL = 'https://qnarhtydsvxafdrmjqil.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_UhtJIjMTsegrgHNaUKYcRg_e-FV60cd';
 
+  /* Where did this signup come from? A `?s=` on the URL names the source —
+     ig-bio, ig-story, ig-dm (docs/instagram-strategy-2026-08-03.md §7) — so
+     Instagram signups stop being indistinguishable from everything else.
+     Strict shape (lowercase/digits/hyphens, ≤40 to match the column's CHECK),
+     anything else falls back to 'landing'. This is data hygiene, not
+     security: the RPC is public and always could be called with any string —
+     the allowlist just keeps the sources *we* mint groupable. */
+  var source = 'landing';
+  try {
+    var s = new URLSearchParams(location.search).get('s');
+    if (s && /^[a-z0-9-]{1,40}$/.test(s)) source = s;
+  } catch (err) { /* very old browser: keep 'landing' */ }
+
   function wire(form) {
     if (!form) return;
     var email = form.querySelector('input[type="email"]');
@@ -184,7 +311,7 @@
       fetch(SUPABASE_URL + '/rest/v1/rpc/join_waitlist', {
         method: 'POST',
         headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ p_email: value, p_source: 'landing' })
+        body: JSON.stringify({ p_email: value, p_source: source })
       }).then(function (res) {
         if (res.ok) {
           form.reset();

@@ -87,10 +87,41 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 .mast-links a:hover { color: var(--accent); }
 
 /* ---------------- Hero ---------------- */
-/* Single column: the hero is copy + signup, no visual. With the receipt gone
-   the headline itself has to carry the space, so it runs big and full-width
-   like a front page rather than sitting in a centered template block. */
+/* Two columns from 861px: copy + signup left, one real screen right. This
+   reverses the earlier single-column call — with no visual the right half of
+   a 1080px shell simply sat empty, on a page whose strongest asset is real
+   screenshots. The shot now carries that space, so the headline no longer has
+   to run to 86px to fill it. Below 860px the shot is dropped rather than
+   stacked: the filmstrip shows the same screen a moment later, and on a phone
+   keeping the signup near the top beats a picture. */
 .hero { padding: 68px 0 28px; }
+.hero-shot { margin: 0; }
+.hero-shot img {
+  display: block;
+  width: 100%;
+  max-width: 296px;
+  margin: 0 auto;
+  aspect-ratio: 375 / 812;
+  object-fit: cover;
+  border: 1.5px solid var(--rule);
+  border-radius: 22px;
+  background: var(--card);
+  box-shadow: 0 30px 60px -42px rgba(20, 15, 8, 0.8);
+}
+.hero-shot figcaption {
+  font: 12px/1.5 var(--mono);
+  color: var(--muted);
+  text-align: center;
+  margin-top: 12px;
+}
+@media (min-width: 861px) {
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 54px;
+    align-items: center;
+  }
+}
 .hero h1 {
   font: 700 clamp(36px, 7.2vw, 86px)/1.02 var(--serif);
   letter-spacing: -0.025em;
@@ -98,6 +129,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   max-width: 20ch;
 }
 .lede { font-size: 17.5px; color: var(--muted); max-width: 52ch; margin: 0 0 30px; }
+
+/* Must sit AFTER the `font:` shorthand above — same specificity, so source
+   order decides. In two columns the headline has ~540px, not the full shell;
+   86px would leave "The" alone on a line. Single-column sizes are untouched. */
+@media (min-width: 861px) {
+  .hero h1 { font-size: clamp(38px, 4.4vw, 60px); }
+  .hero .lede { max-width: 44ch; }
+}
 
 /* The rubber stamp */
 .stamp {
@@ -175,9 +214,30 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 .sub { color: var(--muted); margin: 0 0 34px; max-width: 58ch; }
 .fine { font: 12.5px/1.6 var(--mono); color: var(--muted); max-width: 62ch; }
 
+/* ---------------- The fine print (FAQ) ---------------- */
+.faq-list {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 44px;
+}
+.faq-item { border-top: 1px solid var(--rule); padding: 18px 0 22px; }
+.faq-item dt { font-weight: 700; margin-bottom: 8px; }
+.faq-item dd { margin: 0; font-size: 14.5px; line-height: 1.65; color: var(--muted); }
+
 /* ---------------- Filmstrip / screenshots ---------------- */
-.filmstrip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
-.frame { margin: 0; }
+/* Five across at 1080px is ~190px a card — legible for a phone screen, and the
+   sequence is worth more than a little size. Three-up is the middle step so
+   the cards never shrink below that on tablets. */
+.filmstrip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; counter-reset: shot; }
+.frame { margin: 0; counter-increment: shot; }
+/* Mono numerals — the house rule is that anything with numbers is mono. They
+   also make the strip read as a sequence (a week) rather than four options. */
+.frame figcaption::before {
+  content: counter(shot, decimal-leading-zero) " · ";
+  color: var(--accent);
+  font-weight: 700;
+}
 .frame img {
   display: block;
   width: 100%;
@@ -253,10 +313,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 /* ---------------- Small screens ---------------- */
 @media (max-width: 860px) {
   .hero { padding: 44px 0 48px; }
-  .filmstrip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero-shot { display: none; }
+  .filmstrip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .section { margin-top: 72px; }
+  .faq-list { grid-template-columns: 1fr; }
 }
 @media (max-width: 620px) {
+  .filmstrip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .signup-row .btn { flex: 1 1 100%; }
   .coupon { padding: 40px 20px 34px; margin-top: 80px; }
   .mast-links a { margin-left: 12px; font-size: 14px; }
