@@ -651,7 +651,7 @@ em { font-style: italic; font-weight: 400; color: var(--accent-bright); }
    silently flipped the wrong phases. */
 .phase--tint { background: var(--bg-1); }
 
-.phase-head { display: grid; gap: var(--s-4); margin-bottom: var(--s-8); max-width: 62ch; }
+.phase-head { display: grid; gap: var(--s-4); margin-bottom: var(--s-7); max-width: 62ch; }
 .phase-weeks {
   display: inline-flex;
   align-items: center;
@@ -713,7 +713,7 @@ em { font-style: italic; font-weight: 400; color: var(--accent-bright); }
 .phase-does i { flex: 1; height: 1px; border-bottom: 1px dotted var(--rule); }
 .phase-does b { color: var(--ink); font-weight: 400; text-align: right; }
 
-.phase-body { display: grid; gap: var(--s-7); align-items: center; }
+.phase-body { display: grid; gap: var(--s-7); align-items: start; }
 @media (min-width: 940px) {
   /* Capped, not full-shell. A copy column is capped at 48ch and a phone is
      292px, so letting this row span 1600px just opens a void between them.
@@ -729,7 +729,7 @@ em { font-style: italic; font-weight: 400; color: var(--accent-bright); }
   .phase-body--flip .phase-visual { order: 1; }
 }
 .phase-visual { display: flex; justify-content: center; }
-.phase-visual .phone { --phone-w: 292px; }
+.phase-visual .phone { --phone-w: clamp(292px, 21vw, 400px); }
 .phase-copy p { color: var(--ink-2); max-width: 48ch; }
 .phase-copy p + p { margin-top: var(--s-4); }
 

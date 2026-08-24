@@ -36,7 +36,12 @@
 <script>document.documentElement.className += ' js';</script>
 
 <link rel="icon" href="favicon.png" />
-<link rel="stylesheet" href="landing.css" />
+<!-- Versioned on purpose. The CDN sends cache-control: max-age=14400, so an
+     edge that cached the old stylesheet keeps serving it for four hours after
+     a deploy, and a hard reload does not help because the staleness is at the
+     edge rather than in the browser. Changing the URL is the only reliable
+     way to retire it. Bump this whenever landing.css changes. -->
+<link rel="stylesheet" href="landing.css?v=3" />
 
 <!-- Structured data for search and answer engines. Claims mirror the visible
      page exactly: in development, no dates, no prices, no counts. The FAQ
