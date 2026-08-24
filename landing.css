@@ -77,7 +77,11 @@
   --t-mid:    260ms;
   --t-slow:   520ms;
 
-  --shell:    1160px;
+  /* At 1160 the page used 60% of a 1920 screen with 380px dead down each
+     side: fine on the ~1400 laptop it was designed on, a narrow strip on a
+     monitor. This is a plain max-width on purpose. A vw-based value binds on
+     phones too, where it fought the wrap's own padding. */
+  --shell:    1760px;
   --nav-h:    64px;
 }
 
@@ -145,9 +149,10 @@ a { color: var(--accent-bright); text-underline-offset: 3px; }
   width: 100%;
   max-width: var(--shell);
   margin: 0 auto;
-  padding: 0 var(--s-5);
+  /* Grows with the viewport so a big screen gets real margins without the
+     content column being pinned narrow, and a phone still gets exactly 16px. */
+  padding: 0 clamp(16px, 4vw, 64px);
 }
-@media (max-width: 700px) { .wrap { padding: 0 var(--s-4); } }
 
 section { position: relative; z-index: 1; }
 
@@ -157,13 +162,13 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 700; margin: 0; }
 em { font-style: italic; font-weight: 400; color: var(--accent-bright); }
 
 .display {
-  font-size: clamp(44px, 8.2vw, 104px);
+  font-size: clamp(44px, 8.2vw, 118px);
   line-height: 0.95;
   letter-spacing: -0.038em;
   text-wrap: balance;
 }
 .h2 {
-  font-size: clamp(32px, 5.2vw, 60px);
+  font-size: clamp(32px, 5.2vw, 72px);
   line-height: 1.04;
   letter-spacing: -0.028em;
   text-wrap: balance;
@@ -192,7 +197,7 @@ em { font-style: italic; font-weight: 400; color: var(--accent-bright); }
 }
 
 .lede {
-  font-size: clamp(17.5px, 1.7vw, 20px);
+  font-size: clamp(17.5px, 1.7vw, 21px);
   line-height: 1.58;
   color: var(--ink-2);
   margin: 0;
@@ -356,7 +361,7 @@ em { font-style: italic; font-weight: 400; color: var(--accent-bright); }
 .hero .display {
   margin: 0 0 var(--s-5);
   max-width: 15ch;
-  font-size: clamp(40px, 6.4vw, 84px);
+  font-size: clamp(40px, 6.4vw, 104px);
 }
 .hero .lede { margin: 0 0 var(--s-7); max-width: 46ch; }
 
@@ -577,7 +582,7 @@ em { font-style: italic; font-weight: 400; color: var(--accent-bright); }
 /* ---- the term rail ---- */
 .rail {
   position: fixed;
-  left: max(14px, calc((100vw - var(--shell)) / 2 - 62px));
+  left: max(14px, calc((100vw - min(100vw, var(--shell))) / 2 + 10px));
   top: 50%;
   transform: translateY(-50%);
   z-index: 30;
@@ -640,6 +645,7 @@ em { font-style: italic; font-weight: 400; color: var(--accent-bright); }
 
 /* ---- a phase of the term ---- */
 .phase { position: relative; padding: var(--s-10) 0; border-top: 1px solid var(--rule); }
+.phase > .wrap { position: relative; }
 /* Alternation is declared per phase in the markup, not inferred from sibling
    position: nth-of-type counts every <section> including the hero, which
    silently flipped the wrong phases. */
@@ -673,7 +679,7 @@ em { font-style: italic; font-weight: 400; color: var(--accent-bright); }
 .phase-ghost {
   position: absolute;
   top: var(--s-7);
-  right: max(var(--s-5), calc((100vw - var(--shell)) / 2));
+  right: 0;
   font: 700 clamp(110px, 17vw, 240px)/0.78 var(--serif);
   letter-spacing: -0.06em;
   color: var(--ink);
@@ -709,7 +715,14 @@ em { font-style: italic; font-weight: 400; color: var(--accent-bright); }
 
 .phase-body { display: grid; gap: var(--s-7); align-items: center; }
 @media (min-width: 940px) {
-  .phase-body { grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); gap: var(--s-9); }
+  /* Capped, not full-shell. A copy column is capped at 48ch and a phone is
+     292px, so letting this row span 1600px just opens a void between them.
+     Full-width things (the meal grid, the merge) still use the whole shell. */
+  .phase-body {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.68fr);
+    gap: var(--s-9);
+    max-width: 1180px;
+  }
   .phase-body--wide { grid-template-columns: minmax(0, 1fr); }
   /* --flip means this phase leads with the screen instead of the copy. */
   .phase-body--flip .phase-copy { order: 2; }
@@ -759,7 +772,7 @@ em { font-style: italic; font-weight: 400; color: var(--accent-bright); }
 
 .meal-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(224px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(262px, 1fr));
   gap: var(--s-4);
   margin: 0;
   padding: 0;
