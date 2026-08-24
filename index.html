@@ -3,29 +3,46 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>DormChef — the grocery list that does its own math</title>
-<meta name="description" content="DormChef is an iPhone app in development for college students: pick cheap, good recipes that fit a dorm kitchen, plan your week, and get one merged, costed grocery list. See the real screens and get release updates by email." />
+
+<!-- The <title> and the H1 differ on purpose. Search ranks the title, so the
+     title carries the keywords; the H1 is what a human reads after tapping the
+     Instagram bio link. Competitor titles (ReciMe, Mealime, Grocery AI,
+     Crouton, checked 2026-08-17) contain no keyword for college, student,
+     dorm, budget, cost or aisle, so that phrase space is uncontested and the
+     title claims it. Don't "fix" these into matching. -->
+<title>DormChef: see what your groceries cost before the store</title>
+<meta name="description" content="Meal planner for college students. Plan the week, get one aisle-sorted grocery list, and see the estimated total before you spend a dollar. In development." />
 <link rel="canonical" href="https://dormchefllc.com/" />
 
-<!-- Link previews. og:image must be an absolute URL — scrapers don't resolve
-     relative paths. Rebuild the card with scripts/make-og-card.py. -->
-<meta property="og:title" content="DormChef — the whole week's dinners, rung up before you shop" />
-<meta property="og:description" content="Cheap, good meals for college students. Every recipe wears its price. An iPhone app in development." />
+<!-- Link previews. og:image must be an absolute URL: scrapers don't resolve
+     relative paths. Rebuild with scripts/make-og-card.py. -->
+<meta property="og:title" content="Sixteen weeks. Every dinner accounted for." />
+<meta property="og:description" content="A term of meals planned around whatever you cook on, turned into one aisle-sorted grocery list with the cost worked out first. In development." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://dormchefllc.com/" />
 <meta property="og:image" content="https://dormchefllc.com/og.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="DormChef — the whole week's dinners, rung up before you shop, beside screenshots of the app's meal planner and grocery list." />
+<meta property="og:image:alt" content="Sixteen weeks, every dinner accounted for, beside the DormChef Explore feed showing student recipes with calories and cost per serving." />
 <meta property="og:site_name" content="DormChef" />
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#120f0d" />
+
+<!-- Marks scripting as available BEFORE the stylesheet loads. The scroll
+     reveals hide their targets with CSS, so that rule has to be conditional on
+     JS actually running: without this the whole page is opacity:0 for anyone
+     with scripting off, and no amount of failsafe inside a script that never
+     runs can help. -->
+<script>document.documentElement.className += ' js';</script>
 
 <link rel="icon" href="favicon.png" />
 <link rel="stylesheet" href="landing.css" />
 
-<!-- Structured data for search + answer engines (HQ-5,
-     docs/base44-audit-2026-08-11.md). Claims mirror the visible page exactly:
-     in development, no dates, no prices — §9 rules apply here too. -->
+<!-- Structured data for search and answer engines. Claims mirror the visible
+     page exactly: in development, no dates, no prices, no counts. The FAQ
+     below is mirrored here; edit both or neither. Question wording is
+     brand-expanded on purpose ("Does DormChef work..." vs the page's "Does it
+     work...") because answer engines quote the question. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -44,7 +61,7 @@
       "@id": "https://dormchefllc.com/#site",
       "url": "https://dormchefllc.com/",
       "name": "DormChef",
-      "description": "DormChef is an iPhone app in development for college students: pick cheap, good recipes that fit a dorm kitchen, plan the week, and get one merged, aisle-organized grocery list with an estimated total.",
+      "description": "Meal planner for college students. Plan the week, get one aisle-sorted grocery list, and see the estimated total before you spend a dollar. In development.",
       "publisher": { "@id": "https://dormchefllc.com/#org" }
     },
     {
@@ -54,7 +71,7 @@
         {
           "@type": "Question",
           "name": "What is DormChef?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Cooking usually isn't the hard part — deciding, shopping and paying for it is. DormChef takes that half: pick or import meals you'd actually eat, and it works out what to buy and roughly what it'll cost before you spend anything." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Deciding what to eat, shopping for it and paying for it takes more work than the cooking does. DormChef handles that half. Pick or import meals you'd actually eat, and it works out what to buy and roughly what it'll cost before you spend anything." }
         },
         {
           "@type": "Question",
@@ -64,12 +81,17 @@
         {
           "@type": "Question",
           "name": "How does the grocery list work?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Plan your week and every ingredient is merged across recipes — duplicates combined, grouped by aisle, totalled for the week, estimates marked as estimates. Set a weekly budget and lists aim for it, without ever dropping an ingredient your recipes need." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Plan your week and every ingredient is merged across recipes: duplicates combined, grouped by aisle, totalled for the week, estimates marked as estimates. Set a weekly budget and lists aim for it, without ever dropping an ingredient your recipes need." }
+        },
+        {
+          "@type": "Question",
+          "name": "Are the prices in the app exact?",
+          "acceptedAnswer": { "@type": "Answer", "text": "They are estimates, and the app marks them as estimates everywhere they appear. They are there to tell you roughly what a week costs before you commit to it, not to match a particular store's shelf price on a particular day." }
         },
         {
           "@type": "Question",
           "name": "When can I use DormChef?",
-          "acceptedAnswer": { "@type": "Answer", "text": "It's in development. Leave your email at dormchefllc.com and you'll hear as it progresses — the day it ships, you'll know." }
+          "acceptedAnswer": { "@type": "Answer", "text": "It's in development. Leave your email at dormchefllc.com and you'll hear as it progresses. The day it ships, you'll know." }
         }
       ]
     }
@@ -79,188 +101,603 @@
 </head>
 <body>
 
-<div class="shell">
+<a class="skip" href="#main">Skip to content</a>
 
-  <!-- ================= Masthead ================= -->
-  <header class="masthead">
-    <a class="brand" href="index.html">DormChef</a>
-    <nav class="mast-links" aria-label="Site">
-      <a href="#screens">The screens</a>
-      <a href="#questions">Questions</a>
-      <a href="#updates">Keep me posted</a>
+<!-- ========================= Masthead ========================= -->
+<header class="masthead" id="masthead">
+  <div class="wrap mast-in">
+    <a class="brand" href="index.html">
+      <!-- The toque, traced as inline SVG. Never load the PNG here: the brand
+           assets are generated by scripts/make-brand-assets.py and this is a
+           26px reproduction, not the mark itself. -->
+      <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+        <rect width="24" height="24" rx="3" fill="#e5644e" />
+        <path d="M7.4 15.4c-1.7-.5-2.9-2-2.9-3.8 0-2.2 1.7-3.9 3.7-3.9.3 0 .6 0 .9.1C9.6 6.1 10.7 5.2 12 5.2s2.4.9 2.9 2.6c.3-.1.6-.1.9-.1 2 0 3.7 1.7 3.7 3.9 0 1.8-1.2 3.3-2.9 3.8v.7H7.4z" fill="#fff" />
+        <rect x="7.4" y="17.1" width="9.2" height="2.4" rx="0.6" fill="#fff" />
+      </svg>
+      DormChef
+    </a>
+
+    <nav class="nav" aria-label="The term">
+      <a href="#explore">Explore</a>
+      <a href="#plan">Plan</a>
+      <a href="#shop">Shop</a>
+      <a href="#math">The math</a>
+      <a href="#faq">Questions</a>
     </nav>
-  </header>
 
-  <!-- ================= 1. Hero ================= -->
-  <section class="hero">
-   <div class="hero-copy">
-    <p class="stamp">
-      <span class="stamp-top">Coming to iPhone</span>
-      <span class="stamp-sub">in development</span>
-    </p>
-    <h1>The whole week&rsquo;s dinners, rung up before you shop.</h1>
-    <!-- The lede promises; it no longer explains. The mechanism (merging,
-         aisles, totals) lives once, in the FAQ, and the screens show it. -->
-    <p class="lede">
-      DormChef is an iPhone app for college students cooking on a microwave, a kettle
-      or a rice cooker. Pick the week&rsquo;s dinners; the shopping sorts itself out
-      before you get to the store. <a href="#screens">See the real screens below.</a>
-    </p>
+    <a class="btn btn--sm" href="#updates">Keep me posted</a>
+    <div class="progress" id="progress" aria-hidden="true"></div>
+  </div>
+</header>
 
-    <form class="signup" id="signup-hero" novalidate>
-      <div class="signup-row">
-        <label class="hp" for="hero-company">Company (leave this empty)</label>
-        <input class="hp" type="text" id="hero-company" name="company" tabindex="-1" autocomplete="off" />
-        <label class="sr" for="hero-email">Email address</label>
-        <input type="email" id="hero-email" name="email" placeholder="you@school.edu" required autocomplete="email" />
-        <button class="btn" type="submit">Keep me posted</button>
+<main id="main">
+
+  <!-- ========================= Hero =========================
+       The claim is deliberately inclusive: the app suits a full kitchen and a
+       microwave equally, so the headline promises planning rather than
+       characterising anybody's housing. -->
+  <section class="hero" id="top">
+    <div class="wrap hero-in">
+      <div class="hero-copy">
+        <p class="badge">iPhone app &middot; in development</p>
+        <h1 class="display">Sixteen weeks. Every dinner <em>accounted for</em>.</h1>
+        <p class="lede">
+          DormChef plans a term of meals around whatever you cook on, from a full
+          kitchen to a microwave and a kettle, and turns each week into one
+          aisle-sorted grocery list with the cost worked out first.
+        </p>
+
+        <form class="signup" id="signup-hero" novalidate>
+          <div class="signup-row">
+            <label class="hp" for="hero-company">Company (leave this empty)</label>
+            <input class="hp" type="text" id="hero-company" name="company" tabindex="-1" autocomplete="off" />
+            <label class="sr" for="hero-email">Email address</label>
+            <input type="email" id="hero-email" name="email" placeholder="you@school.edu" required autocomplete="email" />
+            <button class="btn" type="submit">Keep me posted</button>
+          </div>
+          <p class="signup-msg" role="status" aria-live="polite"></p>
+          <p class="signup-note">Progress updates and word the day it ships. Nothing else, ever.</p>
+        </form>
       </div>
-      <p class="signup-msg" role="status" aria-live="polite"></p>
-      <p class="signup-note">Occasional progress updates and word when it&rsquo;s out. Nothing else, ever.</p>
-    </form>
-   </div>
 
-    <!-- One real screen, not a mockup: the shot that proves the headline.
-         Dropped below 860px — the filmstrip shows it again a moment later,
-         and the signup matters more than a picture on a phone. -->
-    <figure class="hero-shot">
-      <img src="shots/grocery.jpg" onerror="this.closest('.hero-shot').remove()"
-           alt="A DormChef grocery list for a week of meals: ingredients merged across recipes, grouped by aisle, with an estimated total." />
-      <figcaption>One week of dinners, totalled before the store</figcaption>
-    </figure>
-  </section>
-
-  <!-- ================= 2. The screens ================= -->
-  <section class="section" id="screens">
-    <p class="overline">From the app</p>
-    <h2>The screens</h2>
-    <!-- The subhead used to enumerate the four screens the captions already
-         name, one line below. The captions won that argument. -->
-    <p class="sub">
-      The screens you&rsquo;d actually touch in a week.
-    </p>
-
-    <div class="filmstrip">
-      <figure class="frame">
-        <img src="shots/explore.jpg" loading="lazy" onerror="this.closest('.frame').classList.add('missing')"
-             alt="The DormChef Explore screen: a grid of student recipes, each labelled with calories and cost per serving." />
-        <div class="index-card" aria-hidden="true"><strong>Explore</strong><span>every recipe wears its price</span></div>
-        <figcaption>Browse meals priced per serving</figcaption>
-      </figure>
-      <figure class="frame">
-        <img src="shots/planner.jpg" loading="lazy" onerror="this.closest('.frame').classList.add('missing')"
-             alt="The DormChef weekly planner with meals assigned to individual days." />
-        <div class="index-card" aria-hidden="true"><strong>Planner</strong><span>drop meals on the nights you&rsquo;ll cook</span></div>
-        <figcaption>Plan the nights you&rsquo;ll cook</figcaption>
-      </figure>
-      <figure class="frame">
-        <img src="shots/recipe.jpg" loading="lazy" onerror="this.closest('.frame').classList.add('missing')"
-             alt="A DormChef recipe screen showing ingredients, steps, calories and cost per serving." />
-        <div class="index-card" aria-hidden="true"><strong>Recipe</strong><span>steps, scaling, macros</span></div>
-        <figcaption>Cook it, step by step</figcaption>
-      </figure>
-      <figure class="frame">
-        <img src="shots/dashboard.jpg" loading="lazy" onerror="this.closest('.frame').classList.add('missing')"
-             alt="The DormChef dashboard: calories logged against the day's goal, this week's meals, and the current grocery list." />
-        <div class="index-card" aria-hidden="true"><strong>Today</strong><span>calories against your goal</span></div>
-        <figcaption>Watch the day&rsquo;s calories add up</figcaption>
-      </figure>
-      <figure class="frame">
-        <img src="shots/profile.jpg" loading="lazy" onerror="this.closest('.frame').classList.add('missing')"
-             alt="A DormChef profile: a student's own meals, each with its calories and cost per serving, and their follower counts." />
-        <div class="index-card" aria-hidden="true"><strong>Profile</strong><span>the meals you post</span></div>
-        <figcaption>Share what you cook</figcaption>
-      </figure>
+      <!-- Deliberately not a feature. The hero's job is to establish what this
+           brand is about, which is food, so it holds a dealt hand of the real
+           dishes and the mark, and no data at all. Every figure on the page
+           lives further down where it has room to be explained. -->
+      <aside class="deck" aria-hidden="true">
+        <div class="deck-glow"></div>
+        <div class="deck-hand">
+          <figure class="deck-card deck-card--back"><img src="shots/meals/greens.jpg" alt="" width="400" height="300" loading="lazy" /></figure>
+          <figure class="deck-card deck-card--mid"><img src="shots/meals/taco.jpg" alt="" width="400" height="300" loading="lazy" /></figure>
+          <figure class="deck-card deck-card--front"><img src="shots/meals/ramen.jpg" alt="" width="400" height="300" fetchpriority="high" /></figure>
+        </div>
+        <p class="deck-mark">
+          <svg width="22" height="22" viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#e5644e"/><path d="M7.4 15.4c-1.7-.5-2.9-2-2.9-3.8 0-2.2 1.7-3.9 3.7-3.9.3 0 .6 0 .9.1C9.6 6.1 10.7 5.2 12 5.2s2.4.9 2.9 2.6c.3-.1.6-.1.9-.1 2 0 3.7 1.7 3.7 3.9 0 1.8-1.2 3.3-2.9 3.8v.7H7.4z" fill="#fff"/><rect x="7.4" y="17.1" width="9.2" height="2.4" rx=".6" fill="#fff"/></svg>
+          Real food, from the real build
+        </p>
+      </aside>
     </div>
-    <!-- No promises about the finished app: we can't guarantee what ships
-         looks like this, so the caveat only describes what these images are. -->
-    <p class="fine">
-      Screenshots from a development build. DormChef is still being built, so the
-      finished app may differ from what you see here.
-    </p>
+
+    <div class="wrap termstrip">
+      <div class="termstrip-row" aria-hidden="true">
+        <i class="m"></i><i class="m"></i><i></i><i></i><i></i><i class="m"></i><i class="m"></i><i class="m"></i><i></i><i></i><i></i><i></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i>
+      </div>
+      <div class="termstrip-labels">
+        <span>Explore</span><span>Plan</span><span>Shop</span><span>Track</span>
+      </div>
+    </div>
   </section>
 
-  <!-- ================= 3. The fine print ================= -->
-  <!-- Four questions, §9-checked: shipped features only, no dates, no prices.
-       Mirrored in the FAQPage JSON-LD in <head> — edit both or neither. -->
-  <section class="section faq" id="questions">
-    <p class="overline">Straight answers</p>
-    <h2>The fine print</h2>
-    <dl class="faq-list">
-      <div class="faq-item">
-        <dt>What is DormChef?</dt>
-        <dd>Cooking usually isn&rsquo;t the hard part — deciding, shopping and paying
-        for it is. DormChef takes that half: pick or import meals you&rsquo;d actually
-        eat, and it works out what to buy and roughly what it&rsquo;ll cost before you
-        spend anything.</dd>
+  <!-- ========================= 01 Explore ========================= -->
+  <section class="phase phase--tint" id="explore">
+    <div class="wrap">
+      <span class="phase-ghost" aria-hidden="true">01</span>
+      <div class="phase-head pre">
+        <p class="phase-weeks"><b>01</b> Weeks 1&ndash;2 <span>Explore</span></p>
+        <h2 class="h2 phase-title">Find food you&rsquo;d <em>actually</em> make.</h2>
+        <p class="phase-problem">Browse the catalogue by what you can cook on and what
+        you want to spend. Every meal carries an estimated cost per serving and a
+        calorie count before you commit to it.</p>
       </div>
-      <div class="faq-item">
-        <dt>Does it work without a real kitchen?</dt>
-        <dd>Whatever you&rsquo;ve got to cook on. The No-kitchen filter narrows
-        everything to meals a microwave, kettle or rice cooker can handle, so a
-        first-year with one outlet and a housemate with a full stove are both at home
-        here. Vegetarian, vegan, high-protein and under-500-calorie filters run
-        alongside it.</dd>
+
+      <div class="phase-body">
+        <div class="phase-copy pre">
+          <p>Narrow the feed until what is left is food you would
+          make: what you can cook on, what you will eat, what you want to spend.
+          The catalogue bends to your kitchen rather than the other way round.</p>
+          <p>Then there are the communities, where the recipes come from students
+          cooking in the same conditions you are. The best source of a cheap dinner worth
+          eating is usually somebody one floor up who already worked it out.</p>
+          <p class="phase-does"><span>Where this lives</span><i></i><b>Explore</b></p>
+        </div>
+        <figure class="phase-visual pre">
+          <div class="phone">
+            <img src="shots/explore.jpg" loading="lazy" width="600" height="1298"
+                 alt="The DormChef Explore screen: a scrolling grid of student recipes with filter chips above it, each card labelled with its calories and estimated cost per serving." />
+          </div>
+        </figure>
       </div>
-      <div class="faq-item">
-        <dt>How does the grocery list work?</dt>
-        <dd>Plan your week and every ingredient is merged across recipes —
-        duplicates combined, grouped by aisle, totalled for the week, estimates
-        marked as estimates. Set a weekly budget and lists aim for it, without
-        ever dropping an ingredient your recipes need.</dd>
+
+
+
+      <div class="mealbar pre">
+        <p class="mealbar-label">Explore some meals</p>
+        <ul class="mealbar-notes">
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M8 7.5h6.2a2.3 2.3 0 0 1 0 4.6H9.8a2.3 2.3 0 0 0 0 4.6H16"/></svg>
+            <span>Costed down to the serving, from what the recipe actually uses</span>
+          </li>
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V9m5 10V5m5 14v-7m5 7V8"/></svg>
+            <span>Calories and macros worked out ingredient by ingredient</span>
+          </li>
+        </ul>
       </div>
-      <div class="faq-item">
-        <dt>When can I use it?</dt>
-        <dd>It&rsquo;s in development. Leave your email and you&rsquo;ll hear as it
-        progresses — the day it ships, you&rsquo;ll know.</dd>
-      </div>
-    </dl>
+
+      <ul class="meal-grid" id="meal-grid">
+        <li class="mcard pre" data-cost="245" data-kcal="579">
+          <div class="mcard-shot"><img src="shots/meals/ramen.jpg" loading="lazy" width="400" height="300" alt="A bowl of creamy garlic butter ramen lifted with chopsticks." /></div>
+          <div class="mcard-body">
+            <h3>Creamy garlic butter ramen</h3>
+            <dl class="mstats">
+              <div><dt>Est. cost</dt><dd class="num">~$2.45<small>/serving</small></dd></div>
+              <div><dt>Calories</dt><dd class="num">579<small>/serving</small></dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="mcard pre" data-cost="160" data-kcal="532">
+          <div class="mcard-shot"><img src="shots/meals/greens.jpg" loading="lazy" width="400" height="300" alt="Ramen under melted cheese with dark leafy greens." /></div>
+          <div class="mcard-body">
+            <h3>Midnight ramen upgrade</h3>
+            <dl class="mstats">
+              <div><dt>Est. cost</dt><dd class="num">~$1.60<small>/serving</small></dd></div>
+              <div><dt>Calories</dt><dd class="num">532<small>/serving</small></dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="mcard pre" data-cost="240" data-kcal="669">
+          <div class="mcard-shot"><img src="shots/meals/taco.jpg" loading="lazy" width="400" height="300" alt="A turkey taco bowl with lettuce, radish and sauce." /></div>
+          <div class="mcard-body">
+            <h3>Turkey taco meal-prep bowl</h3>
+            <dl class="mstats">
+              <div><dt>Est. cost</dt><dd class="num">~$2.40<small>/serving</small></dd></div>
+              <div><dt>Calories</dt><dd class="num">669<small>/serving</small></dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="mcard pre" data-cost="150" data-kcal="413">
+          <div class="mcard-shot"><img src="shots/meals/whitebean.jpg" loading="lazy" width="400" height="300" alt="A white bean and tuna salad with peppers and herbs." /></div>
+          <div class="mcard-body">
+            <h3>White bean and tuna salad</h3>
+            <dl class="mstats">
+              <div><dt>Est. cost</dt><dd class="num">~$1.50<small>/serving</small></dd></div>
+              <div><dt>Calories</dt><dd class="num">413<small>/serving</small></dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="mcard pre" data-cost="125" data-kcal="382">
+          <div class="mcard-shot"><img src="shots/meals/friedrice.jpg" loading="lazy" width="400" height="300" alt="A moulded portion of egg fried rice with peas and peppers." /></div>
+          <div class="mcard-body">
+            <h3>Egg fried rice</h3>
+            <dl class="mstats">
+              <div><dt>Est. cost</dt><dd class="num">~$1.25<small>/serving</small></dd></div>
+              <div><dt>Calories</dt><dd class="num">382<small>/serving</small></dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="mcard pre" data-cost="114" data-kcal="365">
+          <div class="mcard-shot"><img src="shots/meals/lentil.jpg" loading="lazy" width="400" height="300" alt="A white bowl of red lentil soup topped with coriander." /></div>
+          <div class="mcard-body">
+            <h3>Red lentil soup</h3>
+            <dl class="mstats">
+              <div><dt>Est. cost</dt><dd class="num">~$1.15<small>/serving</small></dd></div>
+              <div><dt>Calories</dt><dd class="num">365<small>/serving</small></dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="mcard pre" data-cost="204" data-kcal="323">
+          <div class="mcard-shot"><img src="shots/meals/wraps.jpg" loading="lazy" width="400" height="300" alt="Two halves of a tuna avocado wrap on a bed of lettuce." /></div>
+          <div class="mcard-body">
+            <h3>Tuna avocado power wraps</h3>
+            <dl class="mstats">
+              <div><dt>Est. cost</dt><dd class="num">~$2.05<small>/serving</small></dd></div>
+              <div><dt>Calories</dt><dd class="num">323<small>/serving</small></dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="mcard pre" data-cost="545" data-kcal="920">
+          <div class="mcard-shot"><img src="shots/meals/burrito.jpg" loading="lazy" width="400" height="300" alt="A burrito bowl with rice, black beans, guacamole and chicken." /></div>
+          <div class="mcard-body">
+            <h3>Grilled chicken burrito bowl</h3>
+            <dl class="mstats">
+              <div><dt>Est. cost</dt><dd class="num">~$5.45<small>/serving</small></dd></div>
+              <div><dt>Calories</dt><dd class="num">920<small>/serving</small></dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="mcard pre" data-cost="195" data-kcal="387">
+          <div class="mcard-shot"><img src="shots/meals/turkey.jpg" loading="lazy" width="400" height="300" alt="A skillet of ground turkey, sweet potato and a fried egg." /></div>
+          <div class="mcard-body">
+            <h3>Ground turkey and sweet potato</h3>
+            <dl class="mstats">
+              <div><dt>Est. cost</dt><dd class="num">~$1.95<small>/serving</small></dd></div>
+              <div><dt>Calories</dt><dd class="num">387<small>/serving</small></dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="mcard pre" data-cost="235" data-kcal="534">
+          <div class="mcard-shot"><img src="shots/meals/chili.jpg" loading="lazy" width="400" height="300" alt="A bowl of loaded beef and bean chili with cornbread." /></div>
+          <div class="mcard-body">
+            <h3>Loaded beef and bean chili</h3>
+            <dl class="mstats">
+              <div><dt>Est. cost</dt><dd class="num">~$2.35<small>/serving</small></dd></div>
+              <div><dt>Calories</dt><dd class="num">534<small>/serving</small></dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="mcard pre" data-cost="190" data-kcal="280">
+          <div class="mcard-shot"><img src="shots/meals/parfait.jpg" loading="lazy" width="400" height="300" alt="Two glasses of Greek yogurt berry parfait." /></div>
+          <div class="mcard-body">
+            <h3>Greek yogurt berry parfait</h3>
+            <dl class="mstats">
+              <div><dt>Est. cost</dt><dd class="num">~$1.90<small>/serving</small></dd></div>
+              <div><dt>Calories</dt><dd class="num">280<small>/serving</small></dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="mcard pre" data-cost="160" data-kcal="494">
+          <div class="mcard-shot"><img src="shots/meals/hash.jpg" loading="lazy" width="400" height="300" alt="A pan of breakfast hash with egg, chorizo and greens." /></div>
+          <div class="mcard-body">
+            <h3>Sheet-pan breakfast hash</h3>
+            <dl class="mstats">
+              <div><dt>Est. cost</dt><dd class="num">~$1.60<small>/serving</small></dd></div>
+              <div><dt>Calories</dt><dd class="num">494<small>/serving</small></dd></div>
+            </dl>
+          </div>
+        </li>
+      </ul>
+
+      <p class="footnote">Costs are estimated per serving, not shelf prices, and the
+      app marks them as estimates wherever they appear.</p>
+    </div>
   </section>
 
-  <!-- ================= 4. The closing signup ================= -->
-  <section class="coupon" id="updates">
-    <svg class="scissors" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.6" /><circle cx="6" cy="18" r="2.6" /><path d="M8.2 7.6 20 19M8.2 16.4 20 5" /></svg>
-    <p class="overline">Clip and keep</p>
-    <h2>Hear when it&rsquo;s ready</h2>
-    <!-- Second signup: gives a reason the hero's didn't — what the emails
-         actually contain — rather than restating that it's being built. -->
-    <p class="coupon-sub">
-      Progress, not marketing: what shipped, what broke, what&rsquo;s next — and word
-      the day it&rsquo;s published. No dates promised until there are dates to promise.
-    </p>
-    <form class="signup signup--center" id="signup-coupon" novalidate>
-      <div class="signup-row">
-        <label class="hp" for="coupon-company">Company (leave this empty)</label>
-        <input class="hp" type="text" id="coupon-company" name="company" tabindex="-1" autocomplete="off" />
-        <label class="sr" for="coupon-email">Email address</label>
-        <input type="email" id="coupon-email" name="email" placeholder="you@school.edu" required autocomplete="email" />
-        <button class="btn" type="submit">Keep me posted</button>
+  <!-- ========================= 02 Plan ========================= -->
+  <section class="phase" id="plan">
+    <div class="wrap">
+      <span class="phase-ghost" aria-hidden="true">02</span>
+      <div class="phase-head pre">
+        <p class="phase-weeks"><b>02</b> Weeks 3&ndash;5 <span>Plan</span></p>
+        <h2 class="h2 phase-title">Put them on the days you&rsquo;ll <em>cook</em>.</h2>
+        <p class="phase-problem">Lay the week out meal by meal. Each day totals its own
+        calories as it fills, so the plan is readable at a glance before you commit to
+        any of it.</p>
       </div>
-      <p class="signup-msg" role="status" aria-live="polite"></p>
-      <p class="signup-note">No purchase necessary · iPhone required · unsubscribe any time</p>
-    </form>
+
+      <div class="phase-body phase-body--flip">
+        <div class="phase-copy pre">
+          <p>Drag Thursday onto Tuesday. Eat the same thing three nights running if
+          it was good. Leave Friday blank because Friday is not a cooking night and
+          pretending otherwise is how plans die.</p>
+          <p>The planner does not moralise about any of that. It just totals what you
+          put down, and when the week reads right, one tap turns the whole thing into
+          a shopping list.</p>
+          <p class="phase-does"><span>Where this lives</span><i></i><b>Plan</b></p>
+        </div>
+        <figure class="phase-visual pre">
+          <div class="phone">
+            <img src="shots/planner.jpg" loading="lazy" width="600" height="1298"
+                 alt="The DormChef weekly planner with meals assigned to individual days of the week." />
+          </div>
+        </figure>
+      </div>
+    </div>
   </section>
 
-  <footer class="site-foot">
-    <nav>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Use</a>
-      <a href="mailto:dormchef.app@gmail.com">Contact</a>
-    </nav>
-    <p>DormChef — cheap, good meals for college students. No ads, no trackers, on this page or in the app.</p>
-  </footer>
+  <!-- ========================= 03 Shop ========================= -->
+  <section class="phase phase--tint" id="shop">
+    <div class="wrap">
+      <span class="phase-ghost" aria-hidden="true">03</span>
+      <div class="phase-head pre">
+        <p class="phase-weeks"><b>03</b> Weeks 6&ndash;8 <span>Shop</span></p>
+        <h2 class="h2 phase-title">One list, sorted by <em>aisle</em>.</h2>
+        <p class="phase-problem">Every ingredient from every planned meal, merged into
+        a single list: duplicates combined, quantities added, grouped by where things
+        sit in the store and priced item by item.</p>
+      </div>
 
+      <div class="phase-body">
+        <div class="phase-copy pre">
+          <p>It reads in the order you walk: produce, then dairy, then the long
+          middle aisles. Tick things off and the total comes down with you, so the
+          number at the till is not a surprise you meet at the end.</p>
+          <p>Set a cap and the list is measured against it. It will suggest a cheaper
+          swap where an honest one exists. It will not quietly delete an ingredient to
+          hit a number, because a list that lies to you is worse than no list.</p>
+          <p class="phase-does"><span>Where this lives</span><i></i><b>Groceries</b></p>
+        </div>
+        <figure class="phase-visual pre">
+          <div class="phone">
+            <img src="shots/grocery.jpg" loading="lazy" width="600" height="1298"
+                 alt="The DormChef grocery list: items grouped under Produce, Dairy and Pantry headings, each with a quantity and an estimated price, above a running weekly total." />
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= 04 The math ========================= -->
+  <section class="phase" id="math">
+    <div class="wrap">
+      <span class="phase-ghost" aria-hidden="true">04</span>
+      <div class="phase-head pre">
+        <p class="phase-weeks"><b>04</b> Weeks 9&ndash;12 <span>The math</span></p>
+        <h2 class="h2 phase-title">Three servings of oats is still <em>one</em> gallon of milk.</h2>
+        <p class="phase-problem">A shop is lumpy. You cannot buy a third of a tub of
+        feta or one egg, so the useful question is not what the food costs but what
+        the trip costs. Change the servings and watch the cart, not the recipe.</p>
+      </div>
+
+      <div class="merge merge--wide pre">
+        <div class="merge-pick">
+          <p class="merge-label">Servings</p>
+
+          <div class="mrow" data-meal="ramen">
+            <img src="shots/meals/greens.jpg" alt="" width="400" height="300" loading="lazy" />
+            <div class="mrow-txt">
+              <b>Midnight ramen upgrade</b>
+              <span class="num">~$1.60/serving</span>
+            </div>
+            <div class="stepper">
+              <button type="button" class="stepper-btn" data-step="-1" aria-label="One fewer serving of midnight ramen upgrade">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h9"/></svg>
+              </button>
+              <output class="stepper-n num" data-count>1</output>
+              <button type="button" class="stepper-btn" data-step="1" aria-label="One more serving of midnight ramen upgrade">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3.5v9M3.5 8h9"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="mrow" data-meal="oats">
+            <img src="shots/meals/oats.jpg" alt="" width="400" height="300" loading="lazy" />
+            <div class="mrow-txt">
+              <b>Peanut butter banana oats</b>
+              <span class="num">~$1.90/serving</span>
+            </div>
+            <div class="stepper">
+              <button type="button" class="stepper-btn" data-step="-1" aria-label="One fewer serving of peanut butter banana oats">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h9"/></svg>
+              </button>
+              <output class="stepper-n num" data-count>3</output>
+              <button type="button" class="stepper-btn" data-step="1" aria-label="One more serving of peanut butter banana oats">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3.5v9M3.5 8h9"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="mrow" data-meal="couscous">
+            <img src="shots/meals/couscous.jpg" alt="" width="400" height="300" loading="lazy" />
+            <div class="mrow-txt">
+              <b>Mediterranean couscous bowl</b>
+              <span class="num">~$2.60/serving</span>
+            </div>
+            <div class="stepper">
+              <button type="button" class="stepper-btn" data-step="-1" aria-label="One fewer serving of mediterranean couscous bowl">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h9"/></svg>
+              </button>
+              <output class="stepper-n num" data-count>1</output>
+              <button type="button" class="stepper-btn" data-step="1" aria-label="One more serving of mediterranean couscous bowl">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3.5v9M3.5 8h9"/></svg>
+              </button>
+            </div>
+          </div>
+          <p class="footnote">Pack prices are Walmart US, checked 18 August 2026,
+          and move constantly: groceries are priced regionally and weekly. Treat
+          them as a realistic estimate of a trip, not a quote.</p>
+        </div>
+
+        <!-- The output is a receipt: warm paper, torn edges, dotted leaders and a
+             double-ruled total. It is the one bright surface on the page. -->
+        <div class="receipt-wrap">
+          <div class="receipt">
+            <p class="r-head">DormChef &middot; one week</p>
+            <div class="r-rule"></div>
+            <div class="r-list" id="mo-list" aria-live="polite"></div>
+            <div class="r-rule"></div>
+            <div class="r-line r-meta"><span id="mo-count">0 items</span><i></i><span>estimates</span></div>
+            <div class="r-line r-total"><span>Total</span><i></i><span id="mo-total">~$0.00</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= 05 Track ========================= -->
+  <section class="phase phase--tint" id="track">
+    <div class="wrap">
+      <span class="phase-ghost" aria-hidden="true">05</span>
+      <div class="phase-head pre">
+        <p class="phase-weeks"><b>05</b> Weeks 13&ndash;16 <span>Track</span></p>
+        <h2 class="h2 phase-title">What you ate, and what&rsquo;s <em>left</em>.</h2>
+        <p class="phase-problem">Meals you planned are already in the log, so cooking
+        one and recording it is the same action. The dashboard runs the day against
+        your calorie goal and keeps the rest of the list in reach.</p>
+      </div>
+
+      <div class="phase-body phase-body--flip">
+        <div class="phase-copy pre">
+          <p>The pantry runs the question backwards. Instead of telling you what to
+          buy, tell it what is already on the shelf and it answers the only question
+          that matters at the end of a term: what can I make right now, with this.</p>
+          <p>And if you cook something worth showing, show it. Follow the people whose
+          food you would actually eat and pull any of it straight into your own week.
+          Nobody has to see the failures.</p>
+          <p class="phase-does"><span>Where this lives</span><i></i><b>Home, Pantry, Profile</b></p>
+        </div>
+        <figure class="phase-visual pre">
+          <div class="phone">
+            <img src="shots/dashboard.jpg" loading="lazy" width="600" height="1298"
+                 alt="The DormChef dashboard: calories logged against the day's goal, this week's planned meals, and the current grocery list." />
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= 7. Questions ========================= -->
+  <!-- Mirrored in the FAQPage JSON-LD in <head>. Edit both or neither.
+       details/summary gives keyboard support, find-in-page and no-JS operation
+       for free; a hand-rolled accordion would give up all three. -->
+  <section class="faq" id="faq">
+    <div class="wrap faq-in">
+      <div class="faq-head pre">
+        <p class="eyebrow">Straight answers</p>
+        <h2 class="h2">The fine print.</h2>
+        <p class="lede">No dates, no prices, no promises the app can&rsquo;t keep yet.</p>
+      </div>
+
+      <div class="faq-list">
+        <details class="qa" open>
+          <summary>What is DormChef?<span class="qa-mark" aria-hidden="true"></span></summary>
+          <div class="qa-body"><p>Deciding what to eat, shopping for it and paying for it
+          takes more work than the cooking does. DormChef handles that half. Pick or
+          import meals you&rsquo;d actually eat, and it works out what to buy and roughly
+          what it&rsquo;ll cost before you spend anything.</p></div>
+        </details>
+
+        <details class="qa">
+          <summary>Does it work without a real kitchen?<span class="qa-mark" aria-hidden="true"></span></summary>
+          <div class="qa-body"><p>Whatever you&rsquo;ve got to cook on. The No-kitchen
+          filter narrows everything to meals a microwave, kettle or rice cooker can
+          handle, so a first-year with one outlet and a housemate with a full stove are
+          both at home here. Vegetarian, vegan, high-protein and under-500-calorie
+          filters run alongside it.</p></div>
+        </details>
+
+        <details class="qa">
+          <summary>How does the grocery list work?<span class="qa-mark" aria-hidden="true"></span></summary>
+          <div class="qa-body"><p>Plan your week and every ingredient is merged across
+          recipes: duplicates combined, grouped by aisle, totalled for the week,
+          estimates marked as estimates. Set a weekly budget and lists aim for it,
+          without ever dropping an ingredient your recipes need.</p></div>
+        </details>
+
+        <details class="qa">
+          <summary>Are the prices exact?<span class="qa-mark" aria-hidden="true"></span></summary>
+          <div class="qa-body"><p>They are estimates, and the app marks them as estimates
+          everywhere they appear. They are there to tell you roughly what a week costs
+          before you commit to it, not to match a particular store&rsquo;s shelf price on
+          a particular day.</p></div>
+        </details>
+
+        <details class="qa">
+          <summary>When can I use it?<span class="qa-mark" aria-hidden="true"></span></summary>
+          <div class="qa-body"><p>It&rsquo;s in development. Leave your email and
+          you&rsquo;ll hear as it progresses. The day it ships, you&rsquo;ll know.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= 8. Closing ========================= -->
+  <section class="closing" id="updates">
+    <div class="wrap">
+      <h2 class="h2 pre">Hear when it&rsquo;s <em>ready</em>.</h2>
+      <p class="lede pre">These emails say what shipped, what broke and what&rsquo;s next,
+      plus word the day it&rsquo;s out. No dates promised until there are dates to
+      promise.</p>
+
+      <form class="signup signup--center pre" id="signup-closing" novalidate>
+        <div class="signup-row">
+          <label class="hp" for="closing-company">Company (leave this empty)</label>
+          <input class="hp" type="text" id="closing-company" name="company" tabindex="-1" autocomplete="off" />
+          <label class="sr" for="closing-email">Email address</label>
+          <input type="email" id="closing-email" name="email" placeholder="you@school.edu" required autocomplete="email" />
+          <button class="btn" type="submit">Keep me posted</button>
+        </div>
+        <p class="signup-msg" role="status" aria-live="polite"></p>
+        <p class="signup-note">iPhone first &middot; unsubscribe any time</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- ========================= Footer ========================= -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-in">
+      <div>
+        <a class="brand" href="index.html">
+          <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+            <rect width="24" height="24" rx="3" fill="#e5644e" />
+            <path d="M7.4 15.4c-1.7-.5-2.9-2-2.9-3.8 0-2.2 1.7-3.9 3.7-3.9.3 0 .6 0 .9.1C9.6 6.1 10.7 5.2 12 5.2s2.4.9 2.9 2.6c.3-.1.6-.1.9-.1 2 0 3.7 1.7 3.7 3.9 0 1.8-1.2 3.3-2.9 3.8v.7H7.4z" fill="#fff" />
+            <rect x="7.4" y="17.1" width="9.2" height="2.4" rx="0.6" fill="#fff" />
+          </svg>
+          DormChef
+        </a>
+        <p class="foot-blurb">Cheap, good meals for college students. An iPhone app in
+        development by DormChef LLC.</p>
+      </div>
+
+      <div>
+        <h4>The site</h4>
+        <ul>
+          <li><a href="#explore">Explore</a></li>
+          <li><a href="#plan">Plan</a></li>
+          <li><a href="#shop">Shop</a></li>
+          <li><a href="#math">The math</a></li>
+          <li><a href="#track">Track</a></li>
+          <li><a href="#faq">Questions</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+          <li><a href="mailto:dormchef.app@gmail.com">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot-base">
+      <span>DormChef LLC</span>
+      <span>No ads, no trackers, on this page or in the app.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- The term rail. Ships hidden and is revealed by JS only when reduced
+     motion is not requested. aria-hidden because it restates the week ranges
+     that are already headings in the page, and a marker that changes on every
+     scroll frame would be hostile to a screen reader. -->
+<aside class="rail" id="rail" aria-hidden="true">
+  <ol class="rail-ticks" id="rail-ticks"></ol>
+  <p class="rail-week" id="rail-week">Week 01</p>
+  <p class="rail-phase" id="rail-phase">Explore</p>
+</aside>
+
+<div class="railbar" id="railbar" aria-hidden="true">
+  <b id="railbar-week">Week 01</b>
+  <i></i>
+  <span id="railbar-phase">Explore</span>
 </div>
 
 <script>
 /* ============================================================
-   Waitlist signup — DO NOT CHANGE THE CONTRACT.
+   1. Waitlist signup. DO NOT CHANGE THE CONTRACT.
+
    Posts to a SECURITY DEFINER Postgres function rather than at the
    table (supabase/migrations/20260724010000_waitlist_rpc.sql). The
-   function dedupes silently and returns nothing (204). The key below
-   is the PUBLISHABLE key — public by design, it also ships in the
-   iOS app — and the waitlist table has no SELECT/INSERT policy, so
-   this key can only call this one function. Never send it as an
+   function dedupes silently and returns nothing. The key below is
+   the PUBLISHABLE key, public by design, and it also ships inside
+   the iOS app. It is safe here specifically because the waitlist
+   table has no SELECT and no INSERT policy, so the only thing this
+   key can do is call this one function. Never send it as an
    Authorization: Bearer header: that breaks role resolution and RLS
    denies the insert.
    ============================================================ */
@@ -268,18 +705,21 @@
   var SUPABASE_URL = 'https://qnarhtydsvxafdrmjqil.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_UhtJIjMTsegrgHNaUKYcRg_e-FV60cd';
 
-  /* Where did this signup come from? A `?s=` on the URL names the source —
-     ig-bio, ig-story, ig-dm (docs/instagram-strategy-2026-08-03.md §7) — so
-     Instagram signups stop being indistinguishable from everything else.
-     Strict shape (lowercase/digits/hyphens, ≤40 to match the column's CHECK),
-     anything else falls back to 'landing'. This is data hygiene, not
-     security: the RPC is public and always could be called with any string —
-     the allowlist just keeps the sources *we* mint groupable. */
+  /* A `?s=` on the URL names the signup source (ig-bio, ig-story, ig-dm)
+     so Instagram signups stop being indistinguishable from everything
+     else. Strict shape, matching the column's CHECK; anything else falls
+     back to 'landing'. Data hygiene, not security: the RPC is public and
+     always could be called with any string. */
   var source = 'landing';
   try {
     var s = new URLSearchParams(location.search).get('s');
     if (s && /^[a-z0-9-]{1,40}$/.test(s)) source = s;
   } catch (err) { /* very old browser: keep 'landing' */ }
+
+  function looksLikeEmail(v) {
+    var at = v.indexOf('@');
+    return at > 0 && v.indexOf('.', at) > at + 1 && !/\s/.test(v);
+  }
 
   function wire(form) {
     if (!form) return;
@@ -292,21 +732,48 @@
       msg.textContent = text;
       msg.className = 'signup-msg' + (kind ? ' ' + kind : '');
     }
+    function invalid(state) {
+      if (state) email.setAttribute('aria-invalid', 'true');
+      else email.removeAttribute('aria-invalid');
+    }
+
+    /* Validate on blur, not on every keystroke: telling someone their
+       address is wrong while they are still typing it is noise. */
+    email.addEventListener('blur', function () {
+      var v = email.value.trim();
+      if (!v) { invalid(false); return; }
+      if (!looksLikeEmail(v)) {
+        invalid(true);
+        say("That doesn't look like an email address.", 'err');
+      } else {
+        invalid(false);
+        if (msg.classList.contains('err')) say('');
+      }
+    });
+    email.addEventListener('input', function () {
+      if (email.getAttribute('aria-invalid') && looksLikeEmail(email.value.trim())) {
+        invalid(false);
+        say('');
+      }
+    });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var value = (email.value || '').trim();
 
-      // Bot filled the hidden field — show success, save nothing.
+      // Bot filled the hidden field: show success, save nothing.
       if (honey && honey.value) { say("You're on the list.", 'ok'); return; }
 
-      if (!value || value.indexOf('@') < 1 || value.indexOf('.', value.indexOf('@')) < 0) {
+      if (!looksLikeEmail(value)) {
+        invalid(true);
         say("That doesn't look like an email address.", 'err');
+        email.focus();
         return;
       }
 
+      invalid(false);
       button.disabled = true;
-      say('Adding you…');
+      say('Adding you...');
 
       fetch(SUPABASE_URL + '/rest/v1/rpc/join_waitlist', {
         method: 'POST',
@@ -315,14 +782,15 @@
       }).then(function (res) {
         if (res.ok) {
           form.reset();
-          say("You're on the list — we'll email you as it progresses.", 'ok');
+          say("You're on the list. We'll email you as it progresses.", 'ok');
         } else if (res.status === 400) {
+          invalid(true);
           say("That doesn't look like an email address.", 'err');
         } else {
           say('Something went wrong. Try again, or email us instead.', 'err');
         }
       }).catch(function () {
-        say('Could not reach the server — check your connection and try again.', 'err');
+        say('Could not reach the server. Check your connection and try again.', 'err');
       }).then(function () {
         button.disabled = false;
       });
@@ -330,7 +798,357 @@
   }
 
   wire(document.getElementById('signup-hero'));
-  wire(document.getElementById('signup-coupon'));
+  wire(document.getElementById('signup-closing'));
+})();
+
+/* ============================================================
+   2. Masthead state and scroll progress.
+   ============================================================ */
+(function () {
+  var mast = document.getElementById('masthead');
+  var bar = document.getElementById('progress');
+  if (!mast) return;
+
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var y = window.pageYOffset || document.documentElement.scrollTop;
+    mast.classList.toggle('is-stuck', y > 12);
+    if (bar) {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (max > 0 ? Math.min(1, y / max) * 100 : 0) + '%';
+    }
+  }
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(update);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update();
+})();
+
+/* ============================================================
+   3. Scroll reveals.
+
+   Strict progressive enhancement: the page ships fully visible and
+   this only *hides* things in order to bring them back. Anything
+   already on screen is never hidden, and a canary observer proves
+   callbacks are being delivered at all. If they are not, everything
+   is revealed rather than left invisible waiting forever.
+   ============================================================ */
+(function () {
+  if (!window.matchMedia ||
+      !window.matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+
+  var targets = document.querySelectorAll('.pre');
+  if (!targets.length) return;
+
+  function show(el) { el.classList.add('in'); }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      show(entry.target);
+      io.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  var pending = [];
+  Array.prototype.forEach.call(targets, function (el) {
+    var box = el.getBoundingClientRect();
+    if (box.top < window.innerHeight && box.bottom > 0) { show(el); return; }
+    pending.push(el);
+    io.observe(el);
+  });
+  if (!pending.length) return;
+
+  var delivers = false;
+  var canary = new IntersectionObserver(function () {
+    delivers = true;
+    canary.disconnect();
+  }, { threshold: 0 });
+  canary.observe(document.body);
+
+  window.setTimeout(function () {
+    if (!delivers) pending.forEach(show);
+  }, 2000);
+})();
+
+/* ============================================================
+   5. The merge builder.
+
+   Pick meals; their ingredients merge into one aisle-sorted list
+   with quantities added and a running estimated total. Entirely
+   user-driven, so nothing animates on its own.
+
+   Ingredient names for the ramen come from the app's own recipe
+   screen; the rest come from the grocery screen and its merge
+   notes. Prices are the app's estimates, which is what the
+   caption under the widget says.
+   ============================================================ */
+(function () {
+  var root = document.querySelector('.merge');
+  var list = document.getElementById('mo-list');
+  var totalEl = document.getElementById('mo-total');
+  var countEl = document.getElementById('mo-count');
+  if (!root || !list) return;
+
+  // A grocery list is a list of THINGS YOU BUY, not fractions of packages.
+  // The earlier version priced "0.33 cup feta" and "1 egg", which is not what
+  // a checkout does: you buy a 6oz tub and a dozen. So every ingredient here
+  // maps to a real pack at a real retail price, and the list adds up whole
+  // packs.
+  //
+  // This also makes the merge argument properly: three servings of oats still
+  // only needs one gallon of milk. Buying is lumpy, and that lumpiness is the
+  // thing the app is actually saving you from.
+  //
+  // Prices are Walmart US, checked 2026-08-18, and are cited under the widget.
+  // They move constantly and vary by store, which is why the page calls them
+  // estimates. If you refresh them, refresh the note as well.
+  //
+  // name, aisle, pack label, cents per pack, servings one pack covers
+  var PACKS = {
+    ramen:    ['Ramen noodles',   'Pantry & dry goods', '6 pack',        297, 6],
+    egg:      ['Eggs',            'Dairy & eggs',       '12 ct',         167, 12],
+    spinach:  ['Baby spinach',    'Produce',            '5 oz bag',      273, 10],
+    onion:    ['Green onions',    'Produce',            'bunch',          96, 8],
+    oats:     ['Old-fashioned oats','Pantry & dry goods','42 oz',        418, 28],
+    banana:   ['Bananas',         'Produce',            'about 1 lb',     50, 3],
+    milk:     ['Milk',            'Dairy & eggs',       '1 gallon',      362, 10],
+    pb:       ['Peanut butter',   'Pantry & dry goods', '16 oz',         138, 16],
+    feta:     ['Feta, crumbled',  'Dairy & eggs',       '6 oz',          396, 6],
+    tomato:   ['Grape tomatoes',  'Produce',            '10 oz',         227, 4],
+    chickpea: ['Chickpeas',       'Pantry & dry goods', '15 oz can',      86, 2]
+  };
+
+  // which packs each meal draws on, and how many servings' worth per serving
+  var RECIPES = {
+    ramen:    ['ramen', 'egg', 'spinach', 'onion'],
+    oats:     ['oats', 'banana', 'milk', 'pb'],
+    couscous: ['feta', 'tomato', 'chickpea', 'onion']
+  };
+
+  var AISLES = ['Produce', 'Dairy & eggs', 'Pantry & dry goods'];
+
+  function tidy(n) {
+    // 1.5 not 1.50, 2 not 2.0
+    return String(Math.round(n * 100) / 100);
+  }
+
+  function render() {
+    // how many servings of each pack are called for across the whole selection
+    var needed = {};
+    root.querySelectorAll('.mrow').forEach(function (row) {
+      var count = +row.dataset.count || 0;
+      var recipe = RECIPES[row.dataset.meal];
+      if (!count || !recipe) return;
+      recipe.forEach(function (key) {
+        needed[key] = (needed[key] || 0) + count;
+      });
+    });
+
+    var keys = Object.keys(needed);
+    var totalCents = 0;
+    var byAisle = {};
+
+    keys.forEach(function (key) {
+      var pack = PACKS[key];
+      // buying is lumpy: you cannot buy 0.4 of a carton
+      var packs = Math.ceil(needed[key] / pack[4]);
+      var cents = packs * pack[3];
+      totalCents += cents;
+      (byAisle[pack[1]] = byAisle[pack[1]] || []).push({
+        name: pack[0], unit: pack[2], packs: packs, cents: cents,
+        covers: needed[key], capacity: pack[4]
+      });
+    });
+
+    list.innerHTML = '';
+
+    if (!keys.length) {
+      var none = document.createElement('p');
+      none.className = 'r-empty';
+      none.textContent = 'Add a serving and the list writes itself.';
+      list.appendChild(none);
+    } else {
+      AISLES.forEach(function (aisle) {
+        var items = byAisle[aisle];
+        if (!items) return;
+
+        var head = document.createElement('p');
+        head.className = 'r-aisle';
+        head.textContent = aisle;
+        list.appendChild(head);
+
+        items.forEach(function (it) {
+          var row = document.createElement('div');
+          row.className = 'r-line';
+
+          var label = document.createElement('span');
+          label.textContent = it.name + ' ' + it.unit + (it.packs > 1 ? ' x' + it.packs : '');
+          row.appendChild(label);
+
+          // one pack stretching across several servings is the whole point
+          if (it.covers > 1 && it.packs < it.covers) {
+            var mark = document.createElement('em');
+            mark.textContent = 'covers ' + it.covers;
+            row.appendChild(mark);
+          }
+
+          row.appendChild(document.createElement('i'));
+
+          var price = document.createElement('span');
+          price.textContent = '$' + (it.cents / 100).toFixed(2);
+          row.appendChild(price);
+
+          list.appendChild(row);
+        });
+      });
+    }
+
+    totalEl.textContent = '$' + (totalCents / 100).toFixed(2);
+    countEl.textContent = keys.length + (keys.length === 1 ? ' item' : ' items');
+  }
+
+  root.querySelectorAll('.mrow').forEach(function (row) {
+    var out = row.querySelector('[data-count]');
+    row.dataset.count = out.textContent.trim();
+
+    row.querySelectorAll('.stepper-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var next = (+row.dataset.count || 0) + (+btn.dataset.step);
+        if (next < 0) next = 0;
+        if (next > 6) next = 6;
+        row.dataset.count = next;
+        out.textContent = next;
+        row.querySelector('[data-step="-1"]').disabled = next === 0;
+        row.querySelector('[data-step="1"]').disabled = next === 6;
+        render();
+      });
+    });
+    row.querySelector('[data-step="-1"]').disabled = +row.dataset.count === 0;
+  });
+
+  render();
+})();
+
+/* ============================================================
+   6. The term rail.
+
+   Reports where in the sixteen-week term the reader currently
+   is. It is a pure function of scroll position, not an
+   animation with a duration: stop scrolling and it stops,
+   scroll back and the term runs backwards. That is what keeps
+   it inside the no-autoplay rule.
+
+   The week ranges live in the markup as headings, so this is
+   presentational only. If it never runs, nothing is lost.
+   ============================================================ */
+(function () {
+  if (!window.matchMedia ||
+      !window.matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
+  if (!window.requestAnimationFrame) return;
+
+  var rail = document.getElementById('rail');
+  var bar = document.getElementById('railbar');
+  var ticksEl = document.getElementById('rail-ticks');
+  if (!rail || !bar || !ticksEl) return;
+
+  // section id, first week, last week, label. These MUST match the
+  // section ids and the phase headings; if an id drifts the rail silently
+  // finds nothing and never appears.
+  var PHASES = [
+    ['explore', 1,  2,  'Explore'],
+    ['plan',    3,  5,  'Plan'],
+    ['shop',    6,  8,  'Shop'],
+    ['math',    9,  12, 'The math'],
+    ['track',   13, 16, 'Track']
+  ];
+  var WEEKS = 16;
+
+  var sections = PHASES.map(function (ph) {
+    return { el: document.getElementById(ph[0]), from: ph[1], to: ph[2], label: ph[3] };
+  }).filter(function (x) { return x.el; });
+  if (!sections.length) return;
+
+  // build the sixteen ticks once
+  var ticks = [];
+  for (var i = 1; i <= WEEKS; i++) {
+    var li = document.createElement('li');
+    li.className = 'rail-tick';
+    ticksEl.appendChild(li);
+    ticks.push(li);
+  }
+
+  var els = {
+    week: document.getElementById('rail-week'),
+    phase: document.getElementById('rail-phase'),
+    barWeek: document.getElementById('railbar-week'),
+    barPhase: document.getElementById('railbar-phase')
+  };
+
+  var lastWeek = 0, lastPhase = null, running = false;
+
+  function pad(n) { return n < 10 ? '0' + n : String(n); }
+
+  function frame() {
+    running = false;
+    var pageY = window.pageYOffset || document.documentElement.scrollTop;
+    var probe = pageY + window.innerHeight * 0.45;
+
+    // which phase is the probe inside, and how far through it
+    var active = null, progress = 0;
+    for (var i = 0; i < sections.length; i++) {
+      var s = sections[i];
+      var box = s.el.getBoundingClientRect();
+      var top = pageY + box.top;
+      if (probe >= top && probe < top + box.height) {
+        active = s;
+        progress = (probe - top) / box.height;
+        break;
+      }
+    }
+
+    var on = !!active;
+    rail.classList.toggle('is-on', on);
+    bar.classList.toggle('is-on', on);
+    if (!on) return;
+
+    // map position within the phase onto its week range
+    var span = active.to - active.from + 1;
+    var week = active.from + Math.min(span - 1, Math.floor(progress * span));
+
+    if (week !== lastWeek) {
+      lastWeek = week;
+      els.week.textContent = 'Week ' + pad(week);
+      els.barWeek.textContent = 'Week ' + pad(week);
+      for (var t = 0; t < ticks.length; t++) {
+        ticks[t].classList.toggle('is-past', t + 1 < week);
+        ticks[t].classList.toggle('is-now', t + 1 === week);
+      }
+      bar.style.setProperty('--term-progress', (week / WEEKS * 100) + '%');
+    }
+    if (active.label !== lastPhase) {
+      lastPhase = active.label;
+      els.phase.textContent = active.label;
+      els.barPhase.textContent = active.label;
+    }
+  }
+
+  function onScroll() {
+    if (running) return;
+    running = true;
+    window.requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  window.addEventListener('load', onScroll);
+  frame();
 })();
 </script>
 
