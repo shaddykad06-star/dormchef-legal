@@ -41,7 +41,7 @@
      a deploy, and a hard reload does not help because the staleness is at the
      edge rather than in the browser. Changing the URL is the only reliable
      way to retire it. Bump this whenever landing.css changes. -->
-<link rel="stylesheet" href="landing.css?v=3" />
+<link rel="stylesheet" href="landing.css?v=4" />
 
 <!-- Structured data for search and answer engines. Claims mirror the visible
      page exactly: in development, no dates, no prices, no counts. The FAQ
@@ -158,7 +158,16 @@
             <label class="hp" for="hero-company">Company (leave this empty)</label>
             <input class="hp" type="text" id="hero-company" name="company" tabindex="-1" autocomplete="off" />
             <label class="sr" for="hero-email">Email address</label>
-            <input type="email" id="hero-email" name="email" placeholder="you@school.edu" required autocomplete="email" />
+            <input type="email" id="hero-email" name="email" placeholder="you@email.com" required autocomplete="email" />
+          </div>
+          <!-- The school dropdown is filled in by script 1 from a single shared
+               list, so the two forms on this page can never drift apart. It is
+               deliberately OPTIONAL and deliberately AFTER the address: the
+               signup count is the metric, and an email we captured beats a
+               college we didn't. -->
+          <div class="signup-row">
+            <label class="sr" for="hero-college">Your college (optional)</label>
+            <select class="signup-school is-empty" id="hero-college" name="college" autocomplete="off"></select>
             <button class="btn" type="submit">Keep me posted</button>
           </div>
           <p class="signup-msg" role="status" aria-live="polite"></p>
@@ -619,7 +628,11 @@
           <label class="hp" for="closing-company">Company (leave this empty)</label>
           <input class="hp" type="text" id="closing-company" name="company" tabindex="-1" autocomplete="off" />
           <label class="sr" for="closing-email">Email address</label>
-          <input type="email" id="closing-email" name="email" placeholder="you@school.edu" required autocomplete="email" />
+          <input type="email" id="closing-email" name="email" placeholder="you@email.com" required autocomplete="email" />
+        </div>
+        <div class="signup-row">
+          <label class="sr" for="closing-college">Your college (optional)</label>
+          <select class="signup-school is-empty" id="closing-college" name="college" autocomplete="off"></select>
           <button class="btn" type="submit">Keep me posted</button>
         </div>
         <p class="signup-msg" role="status" aria-live="polite"></p>
@@ -721,6 +734,248 @@
     if (s && /^[a-z0-9-]{1,40}$/.test(s)) source = s;
   } catch (err) { /* very old browser: keep 'landing' */ }
 
+  /* The school list. Florida leads because that is the launch market; the
+     rest is grouped by state so a 199-entry dropdown stays scannable instead
+     of becoming one endless scroll. Built here rather than written into the
+     markup twice, so the hero form and the closing form cannot drift apart —
+     and the form already needs JavaScript to submit at all, so this costs no
+     one a working page. A school that is missing shows up in the data as
+     'Other (not listed)', which is the cue to add rows here. */
+  var COLLEGES = [
+    ['Florida', [
+      'University of Florida', 'Florida State University', 'University of Central Florida',
+      'University of South Florida', 'Florida International University',
+      'Florida Atlantic University', 'Florida A&M University', 'University of North Florida',
+      'University of West Florida', 'Florida Gulf Coast University',
+      'Florida Polytechnic University', 'New College of Florida', 'University of Miami',
+      'Nova Southeastern University', 'Stetson University', 'Rollins College',
+      'Embry-Riddle Aeronautical University', 'Florida Institute of Technology',
+      'Jacksonville University', 'Barry University', 'Lynn University',
+      'Palm Beach Atlantic University', 'Flagler College', 'Eckerd College',
+      'Saint Leo University', 'Bethune-Cookman University', 'Miami Dade College',
+      'Valencia College', 'Broward College', 'Hillsborough Community College',
+      'Santa Fe College', 'St. Petersburg College', 'Seminole State College of Florida',
+      'Tallahassee State College'
+    ]],
+    ['Alabama', [
+      'University of Alabama', 'Auburn University', 'University of Alabama at Birmingham'
+    ]],
+    ['Alaska', [
+      'University of Alaska Anchorage'
+    ]],
+    ['Arizona', [
+      'Arizona State University', 'University of Arizona', 'Northern Arizona University'
+    ]],
+    ['Arkansas', [
+      'University of Arkansas'
+    ]],
+    ['California', [
+      'University of California, Los Angeles', 'University of California, Berkeley',
+      'University of California, San Diego', 'University of California, Davis',
+      'University of California, Irvine', 'University of California, Santa Barbara',
+      'University of Southern California', 'Stanford University', 'San Diego State University',
+      'San Jose State University', 'California State University, Long Beach',
+      'California Polytechnic State University, San Luis Obispo'
+    ]],
+    ['Colorado', [
+      'University of Colorado Boulder', 'Colorado State University', 'University of Denver'
+    ]],
+    ['Connecticut', [
+      'University of Connecticut', 'Yale University'
+    ]],
+    ['Delaware', [
+      'University of Delaware'
+    ]],
+    ['District of Columbia', [
+      'George Washington University', 'Georgetown University', 'Howard University'
+    ]],
+    ['Georgia', [
+      'University of Georgia', 'Georgia Institute of Technology', 'Georgia State University',
+      'Kennesaw State University', 'Emory University'
+    ]],
+    ['Hawaii', [
+      'University of Hawaii at Manoa'
+    ]],
+    ['Idaho', [
+      'Boise State University'
+    ]],
+    ['Illinois', [
+      'University of Illinois Urbana-Champaign', 'University of Illinois Chicago',
+      'Northwestern University', 'University of Chicago', 'DePaul University'
+    ]],
+    ['Indiana', [
+      'Indiana University Bloomington', 'Purdue University', 'University of Notre Dame',
+      'Ball State University'
+    ]],
+    ['Iowa', [
+      'University of Iowa', 'Iowa State University'
+    ]],
+    ['Kansas', [
+      'University of Kansas', 'Kansas State University'
+    ]],
+    ['Kentucky', [
+      'University of Kentucky', 'University of Louisville'
+    ]],
+    ['Louisiana', [
+      'Louisiana State University', 'Tulane University'
+    ]],
+    ['Maine', [
+      'University of Maine'
+    ]],
+    ['Maryland', [
+      'University of Maryland, College Park', 'Johns Hopkins University', 'Towson University'
+    ]],
+    ['Massachusetts', [
+      'Boston University', 'Northeastern University', 'University of Massachusetts Amherst',
+      'Harvard University', 'Massachusetts Institute of Technology', 'Boston College'
+    ]],
+    ['Michigan', [
+      'University of Michigan', 'Michigan State University', 'Wayne State University',
+      'Western Michigan University', 'Grand Valley State University'
+    ]],
+    ['Minnesota', [
+      'University of Minnesota Twin Cities', 'Minnesota State University, Mankato'
+    ]],
+    ['Mississippi', [
+      'University of Mississippi', 'Mississippi State University'
+    ]],
+    ['Missouri', [
+      'University of Missouri', 'Missouri State University', 'Saint Louis University',
+      'Washington University in St. Louis'
+    ]],
+    ['Montana', [
+      'Montana State University'
+    ]],
+    ['Nebraska', [
+      'University of Nebraska-Lincoln'
+    ]],
+    ['Nevada', [
+      'University of Nevada, Las Vegas', 'University of Nevada, Reno'
+    ]],
+    ['New Hampshire', [
+      'University of New Hampshire', 'Dartmouth College'
+    ]],
+    ['New Jersey', [
+      'Rutgers University-New Brunswick', 'Princeton University', 'Montclair State University',
+      'Rowan University'
+    ]],
+    ['New Mexico', [
+      'University of New Mexico'
+    ]],
+    ['New York', [
+      'New York University', 'Columbia University', 'Cornell University', 'Syracuse University',
+      'Fordham University', 'University at Buffalo', 'Stony Brook University',
+      'Binghamton University', 'Rochester Institute of Technology', 'Hunter College, CUNY',
+      'Baruch College, CUNY'
+    ]],
+    ['North Carolina', [
+      'University of North Carolina at Chapel Hill', 'North Carolina State University',
+      'Duke University', 'University of North Carolina at Charlotte',
+      'East Carolina University', 'Appalachian State University'
+    ]],
+    ['North Dakota', [
+      'North Dakota State University'
+    ]],
+    ['Ohio', [
+      'The Ohio State University', 'University of Cincinnati', 'Kent State University',
+      'Ohio University', 'Miami University', 'Bowling Green State University',
+      'Case Western Reserve University'
+    ]],
+    ['Oklahoma', [
+      'University of Oklahoma', 'Oklahoma State University'
+    ]],
+    ['Oregon', [
+      'University of Oregon', 'Oregon State University', 'Portland State University'
+    ]],
+    ['Pennsylvania', [
+      'Pennsylvania State University', 'University of Pittsburgh', 'Temple University',
+      'Drexel University', 'University of Pennsylvania', 'Carnegie Mellon University'
+    ]],
+    ['Rhode Island', [
+      'University of Rhode Island', 'Brown University'
+    ]],
+    ['South Carolina', [
+      'University of South Carolina', 'Clemson University', 'College of Charleston'
+    ]],
+    ['South Dakota', [
+      'South Dakota State University'
+    ]],
+    ['Tennessee', [
+      'University of Tennessee, Knoxville', 'Middle Tennessee State University',
+      'University of Memphis', 'Vanderbilt University'
+    ]],
+    ['Texas', [
+      'The University of Texas at Austin', 'Texas A&M University', 'University of Houston',
+      'Texas Tech University', 'University of North Texas', 'Texas State University',
+      'The University of Texas at Arlington', 'The University of Texas at San Antonio',
+      'The University of Texas at Dallas', 'Baylor University', 'Rice University'
+    ]],
+    ['Utah', [
+      'University of Utah', 'Utah State University', 'Brigham Young University',
+      'Utah Valley University'
+    ]],
+    ['Vermont', [
+      'University of Vermont'
+    ]],
+    ['Virginia', [
+      'Virginia Tech', 'University of Virginia', 'George Mason University',
+      'Virginia Commonwealth University', 'James Madison University', 'Old Dominion University'
+    ]],
+    ['Washington', [
+      'University of Washington', 'Washington State University',
+      'Western Washington University', 'Seattle University'
+    ]],
+    ['West Virginia', [
+      'West Virginia University', 'Marshall University'
+    ]],
+    ['Wisconsin', [
+      'University of Wisconsin-Madison', 'University of Wisconsin-Milwaukee',
+      'Marquette University'
+    ]],
+    ['Wyoming', [
+      'University of Wyoming'
+    ]],
+  ];
+
+  function fillSchools(sel) {
+    if (!sel) return;
+    var frag = document.createDocumentFragment();
+
+    /* The empty first option doubles as the label. It stays selectable, so
+       someone who picks a school by accident can back out to "no answer". */
+    var placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Your college (optional)';
+    frag.appendChild(placeholder);
+
+    for (var i = 0; i < COLLEGES.length; i++) {
+      var group = document.createElement('optgroup');
+      group.label = COLLEGES[i][0];
+      var schools = COLLEGES[i][1];
+      for (var j = 0; j < schools.length; j++) {
+        var opt = document.createElement('option');
+        opt.value = schools[j];
+        opt.textContent = schools[j];
+        group.appendChild(opt);
+      }
+      frag.appendChild(group);
+    }
+
+    var other = document.createElement('option');
+    other.value = 'Other (not listed)';
+    other.textContent = "My school isn't listed";
+    frag.appendChild(other);
+
+    sel.appendChild(frag);
+    /* Greys the control while it still reads as a prompt rather than a value.
+       Set once up front as well as on change: some browsers restore the
+       previous selection across a reload, which would otherwise leave a real
+       school showing in the muted placeholder colour. */
+    function syncEmpty() { sel.classList.toggle('is-empty', !sel.value); }
+    syncEmpty();
+    sel.addEventListener('change', syncEmpty);
+  }
+
   function looksLikeEmail(v) {
     var at = v.indexOf('@');
     return at > 0 && v.indexOf('.', at) > at + 1 && !/\s/.test(v);
@@ -729,7 +984,9 @@
   function wire(form) {
     if (!form) return;
     var email = form.querySelector('input[type="email"]');
+    var school = form.querySelector('select[name="college"]');
     var honey = form.querySelector('input[name="company"]');
+    fillSchools(school);
     var button = form.querySelector('button');
     var msg = form.querySelector('.signup-msg');
 
@@ -783,10 +1040,16 @@
       fetch(SUPABASE_URL + '/rest/v1/rpc/join_waitlist', {
         method: 'POST',
         headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ p_email: value, p_source: source })
+        body: JSON.stringify({
+          p_email: value,
+          p_source: source,
+          /* Optional, so an unanswered dropdown sends null rather than ''. */
+          p_college: (school && school.value) || null
+        })
       }).then(function (res) {
         if (res.ok) {
           form.reset();
+          if (school) school.classList.add('is-empty');
           say("You're on the list. We'll email you as it progresses.", 'ok');
         } else if (res.status === 400) {
           invalid(true);
