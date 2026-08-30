@@ -114,25 +114,32 @@
      Kept as one <symbol> because the masthead and the footer both draw it and
      duplicated gradient ids would be invalid.
 
-     Deliberately WITHOUT the knocked-out DC monogram. The mark drops the
-     monogram below ~85px of rendered width, where its 15-unit stroke lands
-     under ~2px and reads as a smudge; these render at 26px. The favicon keeps
-     the DC because it ships at 192px. Same rule as MONOGRAM_MIN_MARK_PX in
+     Carries the knocked-out DC monogram, the same geometry the mask in
+     assets/images/brand-mark.svg cuts. Note this is the one surface that
+     shows it below the ~85px rule encoded as MONOGRAM_MIN_MARK_PX in
      scripts/make-brand-assets.py and MONOGRAM_MIN_SIZE in toque-mark.tsx --
-     change the geometry in one and you must change it in all three. -->
+     deliberate, so the site wordmark reads as the same badge people will
+     see on the App Store listing. Change this geometry and you must change
+     it in both of those too. -->
 <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
   <defs>
     <radialGradient id="dcPool0" cx="0.18" cy="0.12" r="0.75"><stop offset="0" stop-color="#FFC24E" stop-opacity="0.95" /><stop offset="1" stop-color="#FFC24E" stop-opacity="0" /></radialGradient>
     <radialGradient id="dcPool1" cx="0.9" cy="0.28" r="0.7"><stop offset="0" stop-color="#C06A85" stop-opacity="0.9" /><stop offset="1" stop-color="#C06A85" stop-opacity="0" /></radialGradient>
     <radialGradient id="dcPool2" cx="0.72" cy="0.95" r="0.8"><stop offset="0" stop-color="#9B4470" stop-opacity="0.85" /><stop offset="1" stop-color="#9B4470" stop-opacity="0" /></radialGradient>
     <radialGradient id="dcPool3" cx="0.12" cy="0.88" r="0.7"><stop offset="0" stop-color="#FF7E66" stop-opacity="0.9" /><stop offset="1" stop-color="#FF7E66" stop-opacity="0" /></radialGradient>
+    <mask id="dcMonogram" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="#FFFFFF" />
+      <path d="M444 653H466A33 33 0 0 1 466 719H444Z" fill="#000000" />
+      <path d="M459 668H466A18 18 0 0 1 466 704H459Z" fill="#FFFFFF" />
+      <path d="M566 669.6A25.5 25.5 0 1 0 566 702.4" fill="none" stroke="#000000" stroke-width="15" />
+    </mask>
     <symbol id="dc-mark" viewBox="0 0 1024 1024">
       <rect width="1024" height="1024" fill="#E5644E" />
       <rect width="1024" height="1024" fill="url(#dcPool0)" />
       <rect width="1024" height="1024" fill="url(#dcPool1)" />
       <rect width="1024" height="1024" fill="url(#dcPool2)" />
       <rect width="1024" height="1024" fill="url(#dcPool3)" />
-      <g fill="#FFFFFF">
+      <g fill="#FFFFFF" mask="url(#dcMonogram)">
         <circle cx="323.6" cy="505" r="129.1" />
         <circle cx="512" cy="417.8" r="153.5" />
         <circle cx="700.4" cy="505" r="129.1" />
@@ -802,6 +809,7 @@
       'Florida Atlantic University', 'Florida A&M University', 'University of North Florida',
       'University of West Florida', 'Florida Gulf Coast University',
       'Florida Polytechnic University', 'New College of Florida', 'University of Miami',
+      'University of Tampa',
       'Nova Southeastern University', 'Stetson University', 'Rollins College',
       'Embry-Riddle Aeronautical University', 'Florida Institute of Technology',
       'Jacksonville University', 'Barry University', 'Lynn University',
@@ -973,7 +981,8 @@
     ]],
     ['Virginia', [
       'Virginia Tech', 'University of Virginia', 'George Mason University',
-      'Virginia Commonwealth University', 'James Madison University', 'Old Dominion University'
+      'Virginia Commonwealth University', 'James Madison University', 'Old Dominion University',
+      'Roanoke College'
     ]],
     ['Washington', [
       'University of Washington', 'Washington State University',
@@ -1063,12 +1072,16 @@
   }
 
   /* Ranked, best tier first:
-       0. the name starts with what was typed        ("flor" -> Florida State)
-       1. the acronym IS what was typed              ("ucf"  -> U of Central FL)
+       0. the acronym IS what was typed              ("ucf"  -> U of Central FL)
+       1. the name starts with what was typed        ("flor" -> Florida State)
        2. a nickname matches                         ("bama" -> U of Alabama)
        3. a word inside the name starts with it      ("miami"-> U of Miami)
        4. the acronym starts with it                 ("unc"  -> UNC Charlotte)
        5. it appears anywhere, state included        ("ohio" -> Kent State)
+     An exact acronym outranks a name that merely begins with the same
+     letters: "ut" means University of Tampa, not the three Utah schools whose
+     names happen to start u-t. Whole-string acronym equality is specific
+     enough to trust over a prefix.
      List order is preserved inside every tier, so Florida stays on top. */
   function search(q) {
     var n = norm(q);
@@ -1079,8 +1092,8 @@
       var sc = SCHOOLS[i];
       var name = norm(sc.name);
       var at = name.indexOf(n);
-      if (at === 0) tiers[0].push(sc);
-      else if (sc.acr === squashed) tiers[1].push(sc);
+      if (sc.acr === squashed) tiers[0].push(sc);
+      else if (at === 0) tiers[1].push(sc);
       else if (sc.alias && (sc.alias + ' ').indexOf(n + ' ') > -1) tiers[2].push(sc);
       else if (at > 0 && name.charAt(at - 1) === ' ') tiers[3].push(sc);
       else if (squashed.length > 1 && sc.acr.indexOf(squashed) === 0) tiers[4].push(sc);
