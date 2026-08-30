@@ -14,16 +14,20 @@
 <meta name="description" content="Meal planner for college students. Plan the week, get one aisle-sorted grocery list, and see the estimated total before you spend a dollar. In development." />
 <link rel="canonical" href="https://dormchefllc.com/" />
 
-<!-- Link previews. og:image must be an absolute URL: scrapers don't resolve
+<!-- Link previews. The ?v= on og:image is not decoration: scrapers cache the
+     card by URL, so replacing og.jpg in place leaves Facebook, LinkedIn,
+     Slack and iMessage serving the old one indefinitely. Bump it whenever
+     scripts/make-og-card.py changes the card.
+     og:image must be an absolute URL: scrapers don't resolve
      relative paths. Rebuild with scripts/make-og-card.py. -->
 <meta property="og:title" content="Sixteen weeks. Every dinner accounted for." />
 <meta property="og:description" content="A term of meals planned around whatever you cook on, turned into one aisle-sorted grocery list with the cost worked out first. In development." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://dormchefllc.com/" />
-<meta property="og:image" content="https://dormchefllc.com/og.jpg" />
+<meta property="og:image" content="https://dormchefllc.com/og.jpg?v=2" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Sixteen weeks, every dinner accounted for, beside the DormChef Explore feed showing student recipes with calories and cost per serving." />
+<meta property="og:image:alt" content="Sixteen weeks, every dinner accounted for, beside the DormChef grocery list for a week of meals, aisle-sorted and showing about $32 left to buy against a $75 budget." />
 <meta property="og:site_name" content="DormChef" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="theme-color" content="#120f0d" />
