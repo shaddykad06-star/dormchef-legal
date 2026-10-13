@@ -22,7 +22,7 @@
   </header>
 
   <h1>Privacy Policy</h1>
-  <p class="updated">Last updated: July 24, 2026</p>
+  <p class="updated">Last updated: October 12, 2026</p>
 
   <p>DormChef is a recipe, meal-planning, and grocery app for college students. This policy
   explains what information the app collects, how it's used, and what control you have over it.
@@ -31,16 +31,34 @@
 
   <h2>What we collect</h2>
 
-  <p><strong>Your account.</strong> An email address and password, used to sign you in. You also
-  pick a username, which is shown publicly on recipes you share.</p>
+  <p><strong>Your account.</strong> An email address (with a password or a one-time sign-in code),
+  or your Google account if you choose "Continue with Google", in which case Google shares your
+  name and email address with us. You also pick a username, and can add a bio, a profile photo and
+  your campus. During the beta, we also record which invite code you used to join.</p>
 
   <p><strong>Content you create.</strong> Recipes (titles, ingredients, steps), recipe photos,
-  grocery lists, meal plans, and a food log of meals you record. During onboarding you can tell
-  us your goal (e.g. eating cheap or healthy), dietary preference, and what kitchen access you
-  have. These are used to tailor what the app shows you.</p>
+  grocery lists, meal plans, your pantry, saved meals, and a food log of meals you record. During
+  onboarding you can tell us your goal (e.g. eating cheap or healthy), dietary preference, and what
+  kitchen access you have. These are used to tailor what the app shows you.</p>
+
+  <p><strong>Groups.</strong> The groups you create or join, the messages you send in a group's
+  chat, the lists you share with a group, the combined lists a group makes, and what's been ticked
+  off them.</p>
 
   <p><strong>Community activity.</strong> Which creators you follow, which communities you browse,
   and any reports or blocks you submit through the app's moderation tools.</p>
+
+  <p><strong>Feedback.</strong> What you send through "Send feedback" and the weekly check-in,
+  linked to your account so we can follow up and fix what you report.</p>
+
+  <p><strong>How the app is used.</strong> DormChef keeps its own simple records of a few actions,
+  such as building a grocery list or sending one to a store, with counts like how many items a list
+  had. These records never include what's on your lists, your recipes, or anything you typed. They
+  stay in our own database and are used to decide what to build and fix.</p>
+
+  <p><strong>Crash reports.</strong> When the web app hits an error, a technical report (the error,
+  the screen it happened on, and your browser and device type) is sent to our crash-reporting
+  service, tagged with your account's random ID number, never your name or email address.</p>
 
   <p><strong>The website mailing list.</strong> If you enter your email address on the DormChef
   website, we store that address so we can email you occasional updates on the app's progress
@@ -48,58 +66,72 @@
   no sharing it with anyone else. Ask at the address below and we'll delete it, or use the
   unsubscribe link in any message.</p>
 
-  <p>That's it. We don't collect your location, contacts, or device identifiers, and the app
-  currently includes no advertising or analytics trackers.</p>
+  <p>That's it. We don't collect your location or contacts, and the app includes no advertising
+  or third-party analytics trackers. Reminders, and the iPhone app's optional look at which
+  evenings your calendar is busy, stay on your phone and are never sent to us.</p>
 
   <h2>What's public and what's private</h2>
   <table>
     <tr><th>Data</th><th>Who can see it</th></tr>
-    <tr><td>Shared recipes, their photos, and your username</td>
+    <tr><td>Shared recipes, their photos, and your profile (username, bio, photo, campus)</td>
         <td>Public: visible to other DormChef users, and photos are served from a public link</td></tr>
-    <tr><td>Grocery lists, meal plans, food log, onboarding preferences</td>
-        <td>Only you</td></tr>
+    <tr><td>Group chat messages, lists you share with a group, and the group's combined lists</td>
+        <td>The members of that group</td></tr>
+    <tr><td>Your own grocery lists, meal plans, pantry, food log, onboarding preferences</td>
+        <td>Only you (unless you share a list with a group)</td></tr>
     <tr><td>Email address and password</td>
         <td>Only used to sign you in; never shown to other users</td></tr>
-    <tr><td>Reports you file and users you block</td>
+    <tr><td>Reports, blocks, feedback and check-ins</td>
         <td>Only you and the DormChef team</td></tr>
   </table>
 
   <h2>How your data is used</h2>
   <ul>
     <li><strong>To run the app.</strong> Storing your recipes, syncing your lists and plans
-        across sessions, and showing shared recipes in community feeds.</li>
+        across sessions, running your groups, and showing shared recipes in community feeds.</li>
     <li><strong>AI features.</strong> Some features send data to Anthropic's Claude API for
-        processing: recipe text is consolidated into grocery lists, recipe pages you import by
-        URL are fetched and parsed into structured recipes, and ingredients are matched against
-        nutrition data. Only the recipe content needed for the feature is sent, never your
-        email, food log, or account details.</li>
+        processing: recipe text is consolidated into grocery lists, recipe pages and photos you
+        import are turned into structured recipes, ingredients are matched against nutrition
+        data, a group's lists are combined into one, and grocery list items are matched to store
+        products. Only the content the feature needs is sent, never your email address, password,
+        or account details.</li>
     <li><strong>Nutrition estimates.</strong> Ingredient names are looked up in the USDA
         FoodData Central database, a public U.S. government nutrition database.</li>
+    <li><strong>Sending a list to a store.</strong> When you tap to send a list to Walmart,
+        Instacart, DoorDash or Gopuff, DormChef opens that service with your items (as product
+        numbers or search words). From there you're on their service and under their privacy
+        policy. DormChef doesn't see your cart, your order, or your payment details.</li>
   </ul>
 
   <h2>Services we rely on</h2>
   <ul>
     <li><strong>Supabase.</strong> Hosts our database, sign-in, and photo storage.</li>
-    <li><strong>Anthropic (Claude API).</strong> Processes recipe text for the AI features
-        above. Under Anthropic's API terms, this data is not used to train their models.</li>
+    <li><strong>Cloudflare.</strong> Serves the web app and this website.</li>
+    <li><strong>Anthropic (Claude API).</strong> Processes content for the AI features above.
+        Under Anthropic's API terms, this data is not used to train their models.</li>
     <li><strong>USDA FoodData Central.</strong> Receives only ingredient names for
         nutrition lookups.</li>
+    <li><strong>Resend.</strong> Sends sign-in and account emails, so it receives your email
+        address and the message.</li>
+    <li><strong>Sentry.</strong> Receives the crash reports described above, and deletes them
+        automatically within 90 days.</li>
+    <li><strong>Google.</strong> Only if you choose to sign in with Google.</li>
   </ul>
 
   <h2>What we don't do</h2>
   <ul>
     <li>No selling or renting your data, to anyone, ever.</li>
     <li>No advertising, ad networks, or cross-app tracking.</li>
-    <li>No analytics or profiling beyond what's described here. If we later add crash
-        reporting to fix bugs, we'll update this policy first.</li>
+    <li>No third-party analytics or profiling beyond what's described here.</li>
   </ul>
 
   <h2>Deleting your data</h2>
   <p>You can delete your account any time from <strong>Profile → Delete account</strong> in the
   app. This permanently removes your account and everything attached to it: recipes, photos,
-  saved meals, grocery lists, meal plans, food log, preferences, follows, and community
-  memberships. There's no waiting period and nothing to email us about; it takes effect
-  immediately and can't be undone.</p>
+  saved meals, grocery lists, meal plans, pantry, food log, preferences, follows, community
+  memberships, group memberships and your group messages, and your feedback. There's no waiting
+  period and nothing to email us about; it takes effect immediately and can't be undone. Leaving a
+  group also deletes the messages you sent in it.</p>
 
   <h2>Security</h2>
   <p>All traffic between the app and our servers is encrypted (HTTPS). Your private data is
