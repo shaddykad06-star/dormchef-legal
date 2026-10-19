@@ -1,26 +1,9 @@
 # DormChef
 
-DormChef is a meal planner for college students, an iPhone app in development.
-Pick cheap college meals that fit a dorm kitchen (microwave, kettle or rice
-cooker), plan the week, and get one merged grocery list that sorts by aisle and
-shows an estimated total. Sixteen weeks of dinners, every one
-accounted for before you shop.
+DormChef helps college students import recipes from supported links or recipe screenshots, plan meals, and build an organized grocery list directly from that plan. Costs are estimates. Roommates can combine lists for a shared shopping run. Shopping options and transfers vary by retailer; final prices and checkout belong to the retailer.
 
-What it does today:
-
-- Every recipe wears its price: an estimated cost per serving, alongside
-  calories, protein, carbs and fat per serving. Estimates are marked as
-  estimates.
-- An optional weekly budget: lists aim at your cap and suggest cheaper swaps
-  where honest ones exist; it never drops an ingredient your recipes need.
-- Dorm reality first: a no-kitchen filter, dietary filters, and meals that
-  batch well.
-- A community Explore feed of student recipes: niche communities, creator
-  profiles, follows and saves.
-- A daily food log with a calorie goal, fed straight from your saved and
-  planned meals.
-
-Status: in development. Early access signups at https://dormchefllc.com/.
-
-Built by DormChef LLC (Florida). Contact: dormchef.app@gmail.com.
-Privacy: https://dormchefllc.com/privacy.html · Terms: https://dormchefllc.com/terms.html
+The app is being prepared with student feedback. Product updates: https://dormchefllc.com/.
+Instagram: https://www.instagram.com/dormchef_official/.
+Contact: dormchef.app@gmail.com.
+Privacy: https://dormchefllc.com/privacy.html
+Terms: https://dormchefllc.com/terms.html
