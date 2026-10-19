@@ -54,6 +54,14 @@
   you attach) and your answers to the app's short check-ins (asked after you place an order, or
   after a quiet week), linked to your account so we can follow up and fix what you report.</p>
 
+  <p><strong>Phone notifications.</strong> If you turn on notifications, your phone's push
+  service (Apple's, on an iPhone) gives DormChef an address for that phone. We store that address,
+  the encryption keys that come with it, your browser and device type, which kinds of
+  notifications you've switched on or off, and a short record of what we sent and when. They're
+  used only to send what you asked for: messages in your groups, group invites, new followers,
+  saves of your meals, and a Sunday reminder to plan your week. Apart from a test you ask for
+  yourself, nothing is sent between 11 pm and 8 am Eastern.</p>
+
   <p><strong>How the app is used.</strong> DormChef keeps its own simple records of a few actions,
   such as building a grocery list or sending one to a store, with counts like how many items a list
   had. These records never include what's on your lists, your recipes, or anything you typed. They
@@ -70,10 +78,9 @@
   unsubscribe link in any message.</p>
 
   <p>That's it. We don't collect your location or contacts, and the app includes no advertising
-  or third-party analytics trackers. Reminders, your Light/Dark setting, the store you pick to
-  shop at, and the iPhone app's
-  optional look at which evenings your calendar is busy stay on your phone and are never sent to
-  us.</p>
+  or third-party analytics trackers. Your Light/Dark setting, the store you pick to shop at, and
+  the iPhone app's optional look at which evenings your calendar is busy stay on your phone and
+  are never sent to us.</p>
 
   <h2>What's public and what's private</h2>
   <table>
@@ -91,6 +98,8 @@
         <td>Only you (unless you share a list with a group)</td></tr>
     <tr><td>Email address and password</td>
         <td>Only used to sign you in; never shown to other users</td></tr>
+    <tr><td>Your phone's notification address and notification settings</td>
+        <td>Never shown to anyone; used only to send you the notifications you turned on</td></tr>
     <tr><td>Reports, blocks, feedback and check-ins</td>
         <td>Only you and the DormChef team</td></tr>
   </table>
@@ -107,6 +116,10 @@
         or account details.</li>
     <li><strong>Nutrition estimates.</strong> Ingredient names are looked up in the USDA
         FoodData Central database, a public U.S. government nutrition database.</li>
+    <li><strong>Notifications.</strong> When something you asked to hear about happens, DormChef
+        sends a short notification (for example "Alex: Ordering tonight, add your list") to your
+        phone through its push service. It's encrypted on the way, so the push service can't
+        read it.</li>
     <li><strong>Sending a list to a store.</strong> When you tap to send a list to Walmart,
         Instacart or another store or delivery service, DormChef opens that service with your
         items (as product numbers or search words), or copies them for you to paste there. From there you're on their service and under their privacy
@@ -123,6 +136,9 @@
         nutrition lookups.</li>
     <li><strong>Resend.</strong> Sends sign-in and account emails, so it receives your email
         address and the message.</li>
+    <li><strong>Apple Push Notification service</strong> (or Google's or Mozilla's, on other
+        phones and browsers). Delivers the notifications you turn on. It receives your phone's
+        notification address and the encrypted notification, which it can't read.</li>
     <li><strong>Sentry.</strong> Receives the crash reports described above, and deletes them
         automatically within 90 days.</li>
     <li><strong>Google.</strong> Only if you choose to sign in with Google.</li>
@@ -139,10 +155,14 @@
   <p>You can delete your account any time from <strong>Settings → Delete account</strong> in the
   app. This permanently removes your account and everything attached to it: recipes, photos,
   saved meals, grocery lists, meal plans, pantry, food log, preferences, follows, community
-  memberships, group memberships and your group messages, and your feedback and any screenshots
-  you attached to it. There's no waiting
+  memberships, group memberships and your group messages, your notification settings, phone
+  addresses and the record of what was sent, and your feedback and any screenshots you attached to it. There's no waiting
   period and nothing to email us about; it takes effect immediately and can't be undone. Leaving a
   group also deletes the messages you sent in it.</p>
+
+  <p>To stop notifications without deleting anything, use <strong>Settings → Notifications</strong>
+  in the app, or your phone's own notification settings. Signing out also stops them on that
+  phone.</p>
 
   <h2>Security</h2>
   <p>All traffic between the app and our servers is encrypted (HTTPS). Your private data is
